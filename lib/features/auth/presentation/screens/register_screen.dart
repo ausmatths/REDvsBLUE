@@ -1,7 +1,7 @@
 // Location: lib/features/auth/presentation/screens/register_screen.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // ADD THIS IMPORT
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 
