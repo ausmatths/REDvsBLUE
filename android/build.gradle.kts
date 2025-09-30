@@ -22,3 +22,22 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+plugins {
+    id("com.google.gms.google-services") version "4.4.1" apply false
+}
+
+
+android {
+    namespace = "com.rvb.redvsblue"
+    compileSdk = 34
+
+    defaultConfig { // <-- This is the block you are looking for
+        applicationId = "com.rvb.redvsblue"
+        minSdk = 21 // <-- Make sure this is 21 or higher
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+}
