@@ -16,6 +16,11 @@ dependencies:
   # Navigation
   go_router: ^13.0.0
 
+  # Firebase
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
+
   # Local Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -40,3 +45,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
