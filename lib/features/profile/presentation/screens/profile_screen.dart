@@ -33,10 +33,26 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 40,
-                    backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/150?u=a042581f4e29026704d'),
+                    backgroundColor: Colors.grey[200], // Light grey background
+                    // Using FadeInImage to handle image loading and errors
+                    child: ClipOval(
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/default_avatar.png', // Your local fallback image
+                        image: 'https://picsum.photos/150', // A more reliable placeholder service
+                        fit: BoxFit.cover,
+                        width: 80,
+                        height: 80,
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          // This is the widget that will be shown if the network image fails to load
+                          return Image.asset(
+                            'assets/images/default_avatar.png',
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 20),
                   Column(
