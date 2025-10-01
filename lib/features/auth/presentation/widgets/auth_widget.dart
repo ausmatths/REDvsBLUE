@@ -1,41 +1,28 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-// CORRECTED: Used a prefixed import to resolve any potential naming conflicts.
-import 'package:redvsblue/features/auth/presentation/providers/auth_providers.dart'
-as auth_providers;
-import 'package:redvsblue/features/auth/presentation/screens/login_screen.dart';
-import 'package:redvsblue/features/home/presentation/screens/home_screen.dart';
+// Import the repository
+import '../../data/repositories/auth_repository.dart';
 
-class AuthWidget extends ConsumerWidget {
-  const AuthWidget({super.key});
+// This provider exposes the FirebaseAuth instance
+final firebaseAuthProvider =
+Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the auth state changes provider using the prefix
-    final authState = ref.watch(auth_providers.authStateChangesProvider);
+// This provider exposes the GoogleSignIn instance
+final googleSignInProvider = Provider<GoogleSignIn>((ref) => GoogleSignIn());
 
-    return authState.when(
-      data: (user) {
-        // If user is not null (logged in), show HomeScreen
-        if (user != null) {
-          return const HomeScreen();
-        }
-        // If user is null (logged out), show LoginScreen
-        return const LoginScreen();
-      },
-      // Show a loading spinner while checking auth state
-      loading: () => const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-      // Show an error screen if something goes wrong
-      error: (error, stackTrace) => Scaffold(
-        body: Center(
-          child: Text('Something went wrong!\n$error'),
-        ),
-      ),
-    );
-  }
-}
+// This provider creates and exposes an instance of your AuthRepository
+final authRepositoryProvider = Provider<AuthRepository>(
+      (ref) => AuthRepository(
+    firebaseAuth: ref.watch(firebaseAuthProvider),
+    googleSignIn: ref.watch(googleSignInProvider),
+  ),
+);
+
+// This provider creates a stream that notifies the app whenever the user's authentication state changes.
+// The app will listen to this to know if a user is logged in or out.
+final authStateChangesProvider = StreamProvider<User?>((ref) {
+  return ref.watch(firebaseAuthProvider).authStateChanges();
+});
+

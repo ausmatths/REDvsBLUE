@@ -4,15 +4,6 @@
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
@@ -26,6 +17,9 @@
   <meta name="apple-mobile-web-app-title" content="redvsblue">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
+  <!-- ADDED: Google Sign-In Client ID for Web -->
+  <meta name="google-signin-client_id" content="614515570879-5ppnvrmt4dbi2r01huropmcuq2bhmsot.apps.googleusercontent.com">
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
@@ -33,6 +27,16 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<script src="flutter_bootstrap.js" async></script>
+<!-- This script installs service_worker.js to provide PWA functionality to
+     application. For more information, see:
+     https://developers.google.com/web/fundamentals/primers/service-workers -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('flutter-first-frame', function () {
+      navigator.serviceWorker.register('flutter_service_worker.js');
+    });
+  }
+</script>
+<script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
