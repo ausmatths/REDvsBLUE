@@ -29,7 +29,7 @@ bin/
 .DS_Store
 # GameMate specific
 # Firebase
-firebase_options.dart
+lib/firebase_options.dart
 google-services.json
 GoogleService-Info.plist
 

@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
 import 'app.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  // Ensure that Flutter bindings are initialized before calling native code
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize services
+  // Initialize all necessary services
   await _initializeApp();
 
   runApp(
@@ -21,19 +24,24 @@ void main() async {
 
 Future<void> _initializeApp() async {
   try {
-    // Set preferred orientations
+    // Set preferred screen orientations
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
+    // Initialize Firebase using the generated options file
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     // Initialize Hive for local storage
     await Hive.initFlutter();
 
-    // Open Hive boxes
+    // Open Hive boxes that will be used for caching
     await _openHiveBoxes();
 
-    // Set system UI overlay style
+    // Set the system UI overlay style for a clean look
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -43,13 +51,14 @@ Future<void> _initializeApp() async {
       ),
     );
   } catch (e) {
+    // Log any errors that occur during initialization
     debugPrint('Initialization Error: $e');
   }
 }
 
 Future<void> _openHiveBoxes() async {
   try {
-    // Open boxes for different data types
+    // Open boxes for different types of cached data
     await Hive.openBox('user_preferences');
     await Hive.openBox('cached_matches');
     await Hive.openBox('cached_venues');

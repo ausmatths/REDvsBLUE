@@ -7,7 +7,6 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/otp_verification_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
-import '../../features/matchmaking/presentation/screens/matchmaking_screen.dart';
 import '../../features/venue/presentation/screens/venue_list_screen.dart';
 import '../../features/venue/presentation/screens/venue_details_screen.dart';
 import 'package:redvsblue/features/matchmaking/presentation/screens/match_search_screen.dart';
