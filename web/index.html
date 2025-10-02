@@ -31,7 +31,6 @@
 
 <!-- ADDED: Firebase Initialization Script -->
 <script>
-  // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyDO7p1z3KZa2LCy2esvKNAL9Vxb5Fx6EWY",
     authDomain: "redvsblue-f2f23.firebaseapp.com",
@@ -40,13 +39,12 @@
     messagingSenderId: "614515570879",
     appId: "1:614515570879:web:764af2a1b6ca518411ae0a"
   };
-  // Initialize Firebase
-  if (firebase.apps.length === 0) {
-      firebase.initializeApp(firebaseConfig);
+  // Initialize Firebase if it hasn't been already
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
   }
 </script>
 
 <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
-
