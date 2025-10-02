@@ -26,3 +26,4 @@ final authStateChangesProvider = StreamProvider<User?>((ref) {
   // CORRECTED: The authStateChanges stream comes directly from FirebaseAuth, not the repository.
   return ref.watch(firebaseAuthProvider).authStateChanges();
 });
+
