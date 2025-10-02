@@ -1,15 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
+
+// Import Firebase Core and your options file
 import 'firebase_options.dart';
+
 import 'app.dart';
 
 void main() async {
+  // Ensure Flutter is ready
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize all services
+  // Initialize all services, including Firebase
   await _initializeApp();
 
   runApp(
@@ -22,7 +26,7 @@ void main() async {
 Future<void> _initializeApp() async {
   try {
     // Initialize Firebase using the generated options file.
-    // This now connects to the instance already initialized in index.html for web.
+    // On web, this now connects to the instance already initialized in index.html.
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -38,6 +42,7 @@ Future<void> _initializeApp() async {
     await _openHiveBoxes();
 
   } catch (e) {
+    // It's very helpful to print any initialization errors
     debugPrint('Initialization Error: $e');
   }
 }
@@ -52,3 +57,4 @@ Future<void> _openHiveBoxes() async {
     debugPrint('Error opening Hive boxes: $e');
   }
 }
+

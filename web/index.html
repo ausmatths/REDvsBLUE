@@ -16,8 +16,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <!-- ADDED: Google Sign-In Client ID for Web -->
-  <meta name="google-signin-client_id" content="614515570879-5ppnvrmt4dbi2r01huropmcuq2bhmsot.apps.googleusercontent.com">
+  <!-- Google Sign-In Client ID for Web -->
+  <meta name="google-signin-client_id" content="614515570879-h94qs6f332d4fr2529q58l6rv79p4q1p.apps.googleusercontent.com">
 
   <title>redvsblue</title>
   <link rel="manifest" href="manifest.json">
@@ -25,9 +25,9 @@
 <body>
 
 <!-- ADDED: Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <!-- ADDED: Firebase Initialization Script -->
 <script>
@@ -41,9 +41,12 @@
     appId: "1:614515570879:web:764af2a1b6ca518411ae0a"
   };
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  if (firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+  }
 </script>
 
 <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
+
