@@ -1,18 +1,19 @@
-// File: lib/main.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-import 'app.dart';
+
+// ADD: Import Firebase Core and your options file
+import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'app.dart';
+
 void main() async {
-  // Ensure that Flutter bindings are initialized before calling native code
+  // Ensure Flutter is ready
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize all necessary services
+  // Initialize all services, including Firebase
   await _initializeApp();
 
   runApp(
@@ -24,24 +25,26 @@ void main() async {
 
 Future<void> _initializeApp() async {
   try {
-    // Set preferred screen orientations
+    // --- ADDED THIS BLOCK ---
+    // Initialize Firebase using the generated options file
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // -----------------------
+
+    // Set preferred orientations
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
 
-    // Initialize Firebase using the generated options file
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
     // Initialize Hive for local storage
     await Hive.initFlutter();
 
-    // Open Hive boxes that will be used for caching
+    // Open Hive boxes
     await _openHiveBoxes();
 
-    // Set the system UI overlay style for a clean look
+    // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -51,14 +54,13 @@ Future<void> _initializeApp() async {
       ),
     );
   } catch (e) {
-    // Log any errors that occur during initialization
+    // It's very helpful to print any initialization errors
     debugPrint('Initialization Error: $e');
   }
 }
 
 Future<void> _openHiveBoxes() async {
   try {
-    // Open boxes for different types of cached data
     await Hive.openBox('user_preferences');
     await Hive.openBox('cached_matches');
     await Hive.openBox('cached_venues');
