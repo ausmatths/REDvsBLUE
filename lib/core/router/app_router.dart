@@ -8,7 +8,7 @@ import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/otp_verification_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/venue/presentation/screens/venue_list_screen.dart';
-import '../../features/venue/presentation/screens/venue_details_screen.dart' hide VenueBookingScreen;
+import '../../features/venue/presentation/screens/venue_details_screen.dart';
 import '../../features/venue/presentation/screens/venue_booking_screen.dart';
 import '../../features/matchmaking/presentation/screens/match_search_screen.dart';
 
@@ -106,14 +106,30 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/venue-details',
         builder: (context, state) {
-          final venue = state.extra as Map<String, dynamic>;
+          final venue = state.extra as Map<String, dynamic>? ?? {
+            'name': 'Venue',
+            'address': 'Location',
+            'rating': 4.5,
+            'distance': 2.5,
+            'pricePerHour': 500,
+            'availableCourts': 4,
+            'sports': ['badminton', 'tennis'],
+          };
           return VenueDetailsScreen(venue: venue);
         },
       ),
       GoRoute(
         path: '/venue-booking',
         builder: (context, state) {
-          final venue = state.extra as Map<String, dynamic>;
+          final venue = state.extra as Map<String, dynamic>? ?? {
+            'name': 'Venue',
+            'address': 'Location',
+            'rating': 4.5,
+            'distance': 2.5,
+            'pricePerHour': 500,
+            'availableCourts': 4,
+            'sports': ['badminton', 'tennis'],
+          };
           return VenueBookingScreen(venue: venue);
         },
       ),

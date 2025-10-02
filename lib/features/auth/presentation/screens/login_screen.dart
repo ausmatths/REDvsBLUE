@@ -33,27 +33,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isLoading = true);
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email', 'profile'],
+      );
+
+      // First try to sign in silently (if user previously signed in)
+      GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
+
+      // If silent sign in failed, show the popup
+      googleUser ??= await googleSignIn.signIn();
 
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        // Create credential for Firebase
         final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
 
+        // Sign in to Firebase
         await FirebaseAuth.instance.signInWithCredential(credential);
 
         if (mounted) {
           context.go('/home');
         }
+      } else {
+        // User cancelled the sign-in
+        debugPrint('User cancelled Google Sign-In');
       }
     } catch (e) {
       debugPrint('Google Sign-In error: $e');
-      if (mounted) {
+
+      // Only show error if it's not a user cancellation
+      if (e.toString() != 'popup_closed' &&
+          !e.toString().contains('popup_closed_by_user') &&
+          mounted) {
+
+        String errorMessage = 'Sign-in failed';
+        if (e.toString().contains('network')) {
+          errorMessage = 'Network error. Please check your connection.';
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign-in failed: ${e.toString()}')),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: AppColors.error,
+          ),
         );
       }
     } finally {
@@ -238,6 +264,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Development Mode - Skip Auth
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white30),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextButton.icon(
+                      onPressed: () {
+                        // Skip authentication for development
+                        context.go('/home');
+                      },
+                      icon: const Icon(
+                        Icons.developer_mode,
+                        color: Colors.white70,
+                      ),
+                      label: const Text(
+                        'Skip Login (Development Mode)',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
                         ),
                       ),
                     ),

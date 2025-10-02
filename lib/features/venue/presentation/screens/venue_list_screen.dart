@@ -85,10 +85,7 @@ class _VenueListScreenState extends State<VenueListScreen> {
                   children: [
                     Row(
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () => context.go('/home'),
-                        ),
+                        const SizedBox(width: 48), // Balance the filter button
                         const Expanded(
                           child: Text(
                             'Nearby Venues',
