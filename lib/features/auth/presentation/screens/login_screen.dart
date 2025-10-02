@@ -5,10 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Import your providers and repository
 import '../providers/auth_providers.dart';
-import '../../data/repositories/auth_repository.dart';
-
-// A simple provider to handle loading state for the login button
-final loginLoadingProvider = StateProvider<bool>((ref) => false);
+// NOTE: We don't need to import the repository directly anymore,
+// as we get it from the provider.
 
 // Change to a ConsumerWidget to access providers
 class LoginScreen extends ConsumerWidget {
@@ -16,8 +14,9 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the loading state
-    final isLoading = ref.watch(loginLoadingProvider);
+    // We can now read the repository provider
+    final authRepository = ref.watch(authRepositoryProvider);
+    final bool isLoading = ref.watch(loadingProvider);
 
     return Scaffold(
       body: Container(
@@ -71,25 +70,19 @@ class LoginScreen extends ConsumerWidget {
                         ),
                       ),
                       onPressed: isLoading
-                          ? null // Disable button while loading
+                          ? null
                           : () async {
-                        // 1. Set loading to true
-                        ref.read(loginLoadingProvider.notifier).state = true;
+                        ref.read(loadingProvider.notifier).state = true;
                         try {
-                          // 2. Call the sign-in method
-                          await ref.read(authRepositoryProvider).signInWithGoogle();
-                          // 3. AuthWidget will handle navigation automatically on success
+                          await authRepository.signInWithGoogle();
+                          // Navigation is handled by AuthWidget, no need for context.go()
                         } catch (e) {
-                          // Handle errors if sign-in fails
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Sign-in failed: $e')),
-                            );
-                          }
+                          // Handle potential errors, e.g., user closes the popup
+                          debugPrint("Sign-in failed: $e");
                         } finally {
-                          // 4. Set loading back to false
+                          // Ensure loading state is always turned off
                           if (context.mounted) {
-                            ref.read(loginLoadingProvider.notifier).state = false;
+                            ref.read(loadingProvider.notifier).state = false;
                           }
                         }
                       },
@@ -121,26 +114,15 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Sign Up Link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account? ",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      GestureDetector(
-                        onTap: () => context.go('/register'),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
+                  // Other login options can be added here
+                  TextButton(
+                    onPressed: () {
+                      context.go('/register');
+                    },
+                    child: const Text(
+                      'Sign up with Email',
+                      style: TextStyle(color: Colors.white, decoration: TextDecoration.underline),
+                    ),
                   ),
                 ],
               ),
@@ -151,3 +133,6 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 }
+
+// A simple provider to handle loading state
+final loadingProvider = StateProvider<bool>((ref) => false);
