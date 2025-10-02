@@ -8,8 +8,9 @@ import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/otp_verification_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/venue/presentation/screens/venue_list_screen.dart';
-import '../../features/venue/presentation/screens/venue_details_screen.dart';
-import 'package:redvsblue/features/matchmaking/presentation/screens/match_search_screen.dart';
+import '../../features/venue/presentation/screens/venue_details_screen.dart' hide VenueBookingScreen;
+import '../../features/venue/presentation/screens/venue_booking_screen.dart';
+import '../../features/matchmaking/presentation/screens/match_search_screen.dart';
 
 // GoRouter provider for Riverpod
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -117,7 +118,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
 
-      // Redirect default route to splash
+      // Root route - redirect to splash
       GoRoute(
         path: '/',
         redirect: (context, state) => '/splash',

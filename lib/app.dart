@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'core/router/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'core/constants/app_colors.dart';
 
 class REDvsBLUEApp extends ConsumerWidget {
   const REDvsBLUEApp({super.key});
@@ -11,47 +11,77 @@ class REDvsBLUEApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
 
-    return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X dimensions
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp.router(
-          title: 'REDvsBLUE',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.light, // Can be controlled by provider later
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
-          builder: (context, widget) {
-            // Ensure text scaling doesn't break UI
-            final mediaQueryData = MediaQuery.of(context);
-            final scale = mediaQueryData.textScaleFactor.clamp(0.8, 1.2);
-
-            return MediaQuery(
-              data: MediaQueryData(
-                size: mediaQueryData.size,
-                devicePixelRatio: mediaQueryData.devicePixelRatio,
-                textScaleFactor: scale,
-                padding: mediaQueryData.padding,
-                viewInsets: mediaQueryData.viewInsets,
-                systemGestureInsets: mediaQueryData.systemGestureInsets,
-                viewPadding: mediaQueryData.viewPadding,
-                alwaysUse24HourFormat: mediaQueryData.alwaysUse24HourFormat,
-                accessibleNavigation: mediaQueryData.accessibleNavigation,
-                invertColors: mediaQueryData.invertColors,
-                highContrast: mediaQueryData.highContrast,
-                disableAnimations: mediaQueryData.disableAnimations,
-                boldText: mediaQueryData.boldText,
-                navigationMode: mediaQueryData.navigationMode,
-                gestureSettings: mediaQueryData.gestureSettings,
-                displayFeatures: mediaQueryData.displayFeatures,
-              ),
-              child: widget!,
-            );
-          },
-        );
-      },
+    return MaterialApp.router(
+      title: 'REDvsBLUE',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: AppColors.primaryBlue,
+        scaffoldBackgroundColor: AppColors.white,
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColors.grey900,
+          centerTitle: true,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryBlue,
+            foregroundColor: AppColors.white,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32,
+              vertical: 16,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: AppColors.grey100,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: AppColors.primaryBlue,
+              width: 2,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: AppColors.error,
+              width: 1,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: AppColors.error,
+              width: 2,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+        ),
+      ),
+      routerConfig: router,
     );
   }
 }
