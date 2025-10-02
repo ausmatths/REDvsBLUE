@@ -2,27 +2,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-// Import the repository
 import '../../data/repositories/auth_repository.dart';
 
-// This provider exposes the FirebaseAuth instance
+// Provides the FirebaseAuth instance
 final firebaseAuthProvider =
 Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 
-// This provider exposes the GoogleSignIn instance
-final googleSignInProvider = Provider<GoogleSignIn>((ref) => GoogleSignIn());
+// Provides the GoogleSignIn instance WITH the Web Client ID
+final googleSignInProvider = Provider<GoogleSignIn>(
+      (ref) => GoogleSignIn(
+    clientId: '614515570879-h94qs6f332d4fr2529q58l6rv79p4q1p.apps.googleusercontent.com',
+  ),
+);
 
-// This provider creates and exposes an instance of your AuthRepository
+// Provides the AuthRepository instance
 final authRepositoryProvider = Provider<AuthRepository>(
+  // CORRECTED: Switched to named arguments as required by the constructor.
       (ref) => AuthRepository(
     firebaseAuth: ref.watch(firebaseAuthProvider),
     googleSignIn: ref.watch(googleSignInProvider),
   ),
 );
 
-// This provider creates a stream that notifies the app whenever the user's authentication state changes.
-// The app will listen to this to know if a user is logged in or out.
+// Provides the stream of authentication state changes
 final authStateChangesProvider = StreamProvider<User?>((ref) {
-  // CORRECTED: The authStateChanges stream comes directly from FirebaseAuth, not the repository.
   return ref.watch(firebaseAuthProvider).authStateChanges();
 });
+
