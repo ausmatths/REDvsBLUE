@@ -29,10 +29,20 @@ class AppColors {
   static const Color grey300 = Color(0xFFE0E0E0);
   static const Color grey200 = Color(0xFFEEEEEE);
   static const Color grey100 = Color(0xFFF5F5F5);
+  static const Color grey50 = Color(0xFFFAFAFA);  // Added grey50
 
   // Semantic Colors
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFF9800);
   static const Color error = Color(0xFFF44336);
   static const Color info = Color(0xFF2196F3);
+
+  // Transparent variations
+  static const Color transparent = Colors.transparent;
+
+  // Additional utility colors
+  static const Color divider = Color(0xFFE0E0E0);
+  static const Color background = Color(0xFFF5F5F5);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color onSurface = Color(0xFF212121);
 }

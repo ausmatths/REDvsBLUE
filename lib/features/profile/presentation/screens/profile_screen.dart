@@ -1,157 +1,390 @@
-// lib/features/profile/presentation/screens/profile_screen.dart
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../widgets/stat_card.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/constants/app_colors.dart';
+import '../../../../shared/widgets/default_avatar.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Mock data
-    const String playerName = "Austin Matthews";
-    const String playerRank = "Gold III";
-    const int gmrPoints = 1250;
-    const int wins = 42;
-    const int losses = 18;
-    const double winRate = (wins / (wins + losses)) * 100;
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Player Profile'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          foregroundColor: Colors.black,
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  // Mock user data - Replace with actual user data from provider
+  final Map<String, dynamic> userData = {
+    'name': 'John Doe',
+    'email': 'john.doe@example.com',
+    'phone': '+91 98765 43210',
+    'rating': 1850,
+    'level': 'Gold',
+    'matches_played': 156,
+    'wins': 98,
+    'losses': 58,
+    'win_rate': 62.8,
+    'sports': ['Badminton', 'Cricket', 'Football'],
+    'achievements': [
+      {'icon': Icons.emoji_events, 'title': 'Tournament Winner', 'date': '2024'},
+      {'icon': Icons.star, 'title': '100 Matches', 'date': '2024'},
+      {'icon': Icons.local_fire_department, 'title': 'Win Streak 10', 'date': '2024'},
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.primaryRed,
+              AppColors.primaryBlue,
+            ],
+          ),
         ),
-        body: Column(
-          children: [
-            // ### Profile Header ###
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.grey[200], // Light grey background
-                    // Using FadeInImage to handle image loading and errors
-                    child: ClipOval(
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/default_avatar.png', // Your local fallback image
-                        image: 'https://picsum.photos/150', // A more reliable placeholder service
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: 80,
-                        imageErrorBuilder: (context, error, stackTrace) {
-                          // This is the widget that will be shown if the network image fails to load
-                          return Image.asset(
-                            'assets/images/default_avatar.png',
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Header Section
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
                     children: [
+                      // Profile Picture
+                      Stack(
+                        children: [
+                          DefaultAvatar(
+                            size: 100,
+                            name: userData['name'],
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryBlue,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Name and Level
                       Text(
-                        playerName,
+                        userData['name'],
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        playerRank,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
+                      const SizedBox(height: 8),
+
+                      // Level Badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 6,
                         ),
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.military_tech,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${userData['level']} • ${userData['rating']} GMR',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Stats Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildStatItem(
+                            userData['matches_played'].toString(),
+                            'Matches',
+                          ),
+                          _buildStatItem(
+                            userData['wins'].toString(),
+                            'Wins',
+                          ),
+                          _buildStatItem(
+                            '${userData['win_rate']}%',
+                            'Win Rate',
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
 
-            // ### Tab Bar ###
-            const TabBar(
-              tabs: [
-                Tab(text: 'Stats'),
-                Tab(text: 'Match History'),
-              ],
-              labelColor: Colors.redAccent,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.redAccent,
-            ),
-
-            // ### Tab Bar View ###
-            Expanded(
-              child: TabBarView(
-                children: [
-                  // --- Stats Tab ---
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 1.5,
-                      // FIXED: Removed the 'const' keyword from the list below
-                      children: [
-                        StatCard(
-                          title: 'GMR Points',
-                          value: '$gmrPoints',
-                          icon: Icons.star_rounded,
-                          color: Colors.amber,
-                        ),
-                        StatCard(
-                          title: 'Wins',
-                          value: '$wins',
-                          icon: Icons.check_circle_outline,
-                          color: Colors.green,
-                        ),
-                        StatCard(
-                          title: 'Losses',
-                          value: '$losses',
-                          icon: Icons.highlight_off,
-                          color: Colors.red,
-                        ),
-                        StatCard(
-                          title: 'Win Rate',
-                          value: '${winRate.toStringAsFixed(1)}%',
-                          icon: FontAwesomeIcons.percent,
-                          color: Colors.blueAccent,
-                        ),
-                      ],
+                // Content Section
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
                   ),
-                  // --- Match History Tab ---
-                  ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: const Icon(Icons.sports_tennis),
-                        title: Text('Win vs Player ${index + 2}'),
-                        subtitle: const Text('Badminton - Ranked Match'),
-                        trailing: Text(
-                          '${DateTime.now().subtract(Duration(days: index)).day}/${DateTime.now().month}',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+
+                      // Sports Section
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'My Sports',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: userData['sports']
+                                  .map<Widget>((sport) => Chip(
+                                label: Text(sport),
+                                backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                                labelStyle: const TextStyle(
+                                  color: AppColors.primaryBlue,
+                                ),
+                              ))
+                                  .toList(),
+                            ),
+                          ],
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Achievements Section
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Recent Achievements',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            ...userData['achievements'].map<Widget>((achievement) {
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: AppColors.grey50,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: AppColors.grey200,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryRed.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Icon(
+                                        achievement['icon'],
+                                        color: AppColors.primaryRed,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            achievement['title'],
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            achievement['date'],
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.grey600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Menu Items
+                      _buildMenuItem(
+                        icon: Icons.edit,
+                        title: 'Edit Profile',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.history,
+                        title: 'Match History',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.bar_chart,
+                        title: 'Statistics',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.people,
+                        title: 'Friends',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.settings,
+                        title: 'Settings',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.help_outline,
+                        title: 'Help & Support',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.info_outline,
+                        title: 'About',
+                        onTap: () {},
+                      ),
+                      _buildMenuItem(
+                        icon: Icons.logout,
+                        title: 'Logout',
+                        color: AppColors.error,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Logout'),
+                              content: const Text('Are you sure you want to logout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    // Perform logout
+                                    context.go('/login');
+                                  },
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: AppColors.error,
+                                  ),
+                                  child: const Text('Logout'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildStatItem(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white70,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: color ?? AppColors.grey700,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: color ?? AppColors.grey900,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: color ?? AppColors.grey400,
+      ),
+      onTap: onTap,
     );
   }
 }
