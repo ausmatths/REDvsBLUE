@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Internet permission is required for Firebase/Auth and network calls, prevents potential startup stalls -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="redvsblue"
         android:name="${applicationName}"

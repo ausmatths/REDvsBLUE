@@ -24,20 +24,7 @@ tasks.register<Delete>("clean") {
 }
 
 plugins {
-    id("com.google.gms.google-services") version "4.4.1" apply false
+    // Align with version declared in settings.gradle.kts to avoid plugin version conflicts
+    id("com.google.gms.google-services") version "4.3.10" apply false
 }
 
-
-android {
-    namespace = "com.rvb.redvsblue"
-    compileSdk = 34
-
-    defaultConfig { // <-- This is the block you are looking for
-        applicationId = "com.rvb.redvsblue"
-        minSdk = 21 // <-- Make sure this is 21 or higher
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-}

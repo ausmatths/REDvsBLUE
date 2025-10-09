@@ -41,7 +41,61 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # Keep Flutter's additional settings for Pods
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+  end
+
+  # Disable code signing for Debug builds to allow running on iOS Simulator without signing
+  # Apply to the app project (Runner and tests)
+  installer.aggregate_targets.each do |aggregate_target|
+    user_project = aggregate_target.user_project
+    user_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        if config.name == 'Debug'
+          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+          config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+        end
+      end
+    end
+  end
+
+  # Also apply to Pods targets (some pods try to code sign in Debug)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.name == 'Debug'
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+      end
+    end
+  end
+
+  # Add a pre-build script to strip extended attributes from frameworks to avoid
+  # codesign errors like: "resource fork, Finder information, or similar detritus not allowed"
+  installer.aggregate_targets.each do |aggregate_target|
+    user_project = aggregate_target.user_project
+    runner_target = user_project.targets.find { |t| t.name == 'Runner' }
+    if runner_target
+      phase_name = 'Strip Extended Attributes'
+      unless runner_target.shell_script_build_phases.any? { |p| p.name == phase_name }
+        phase = runner_target.new_shell_script_build_phase(phase_name)
+        phase.shell_script = <<-SCRIPT
+set -e
+FRAMEWORKS_DIR="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+APP_DIR="${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}"
+if [ -d "${FRAMEWORKS_DIR}" ]; then
+  find "${FRAMEWORKS_DIR}" -type d -name "*.framework" -print0 | xargs -0 -I {} xattr -cr "{}" || true
+fi
+if [ -d "${APP_DIR}" ]; then
+  xattr -cr "${APP_DIR}" || true
+fi
+SCRIPT
+        # Ensure the phase runs before Flutter's scripts
+        phases = runner_target.build_phases
+        phases.delete(phase)
+        phases.insert(0, phase)
+        user_project.save
+      end
+    end
   end
 end
