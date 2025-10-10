@@ -1,11 +1,11 @@
 // lib/features/profile/data/repositories/user_profile_repository_impl.dart
 
 import 'package:dartz/dartz.dart';
-import '../../../../../core/errors/failures.dart';
-import '../../../domain/entities/user_profile_entity.dart';
-import '../../../domain/repositories/user_profile_repository.dart';
-import '../../datasources/user_profile_remote_data_source.dart';
-import '../../models/user_profile_model.dart';
+import '../../../../core/errors/failures.dart';
+import '../../domain/entities/user_profile_entity.dart';
+import '../../domain/repositories/user_profile_repository.dart';
+import '../datasources/user_profile_remote_data_source.dart';
+import '../models/user_profile_model.dart';
 
 /// Implementation of UserProfileRepository
 ///
@@ -62,8 +62,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     required MatchResult result,
   }) async {
     try {
-      final dataSource =
-      remoteDataSource as UserProfileRemoteDataSourceImpl;
+      final dataSource = remoteDataSource as UserProfileRemoteDataSourceImpl;
       final updatedProfile = await dataSource.updateMatchStats(
         userId: userId,
         result: result,
@@ -80,8 +79,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     required Achievement achievement,
   }) async {
     try {
-      final dataSource =
-      remoteDataSource as UserProfileRemoteDataSourceImpl;
+      final dataSource = remoteDataSource as UserProfileRemoteDataSourceImpl;
       final updatedProfile = await dataSource.addAchievement(
         userId: userId,
         achievement: achievement,
@@ -98,8 +96,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     required List<String> sports,
   }) async {
     try {
-      final dataSource =
-      remoteDataSource as UserProfileRemoteDataSourceImpl;
+      final dataSource = remoteDataSource as UserProfileRemoteDataSourceImpl;
       final updatedProfile = await dataSource.updateSports(
         userId: userId,
         sports: sports,

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../../core/errors/failures.dart';
 import '../../data/datasources/user_profile_remote_data_source.dart';
 import '../../data/repositories/user_profile_repository_impl.dart';
 import '../../domain/entities/user_profile_entity.dart';
@@ -94,7 +95,9 @@ Future<UserProfileEntity> userProfile(
   final result = await getUserProfileUseCase(userId);
 
   return result.fold(
-        (failure) => throw Exception(failure.message),
+        (failure) => throw Exception(
+      failure is Failure ? failure.message : 'Failed to load user profile',
+    ),
         (profile) => profile,
   );
 }
@@ -110,7 +113,9 @@ Stream<UserProfileEntity> userProfileStream(
   final repository = ref.watch(userProfileRepositoryProvider);
   return repository.watchProfile(userId).map(
         (either) => either.fold(
-          (failure) => throw Exception(failure.message),
+          (failure) => throw Exception(
+        failure is Failure ? failure.message : 'Failed to watch user profile',
+      ),
           (profile) => profile,
     ),
   );
@@ -145,7 +150,10 @@ class UserProfileController extends _$UserProfileController {
     );
 
     state = result.fold(
-          (failure) => AsyncValue.error(failure.message, StackTrace.current),
+          (failure) => AsyncValue.error(
+        failure is Failure ? failure.message : 'Failed to create profile',
+        StackTrace.current,
+      ),
           (profile) => AsyncValue.data(profile),
     );
   }
@@ -158,7 +166,10 @@ class UserProfileController extends _$UserProfileController {
     final result = await getUseCase(userId);
 
     state = result.fold(
-          (failure) => AsyncValue.error(failure.message, StackTrace.current),
+          (failure) => AsyncValue.error(
+        failure is Failure ? failure.message : 'Failed to load profile',
+        StackTrace.current,
+      ),
           (profile) => AsyncValue.data(profile),
     );
   }
@@ -171,7 +182,10 @@ class UserProfileController extends _$UserProfileController {
     final result = await updateUseCase(profile);
 
     state = result.fold(
-          (failure) => AsyncValue.error(failure.message, StackTrace.current),
+          (failure) => AsyncValue.error(
+        failure is Failure ? failure.message : 'Failed to update profile',
+        StackTrace.current,
+      ),
           (profile) => AsyncValue.data(profile),
     );
   }
@@ -230,7 +244,10 @@ class UserProfileController extends _$UserProfileController {
     );
 
     state = result.fold(
-          (failure) => AsyncValue.error(failure.message, StackTrace.current),
+          (failure) => AsyncValue.error(
+        failure is Failure ? failure.message : 'Failed to update sports',
+        StackTrace.current,
+      ),
           (profile) => AsyncValue.data(profile),
     );
   }
