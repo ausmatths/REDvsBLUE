@@ -1,11 +1,11 @@
 // lib/features/profile/data/repositories/user_profile_repository_impl.dart
 
 import 'package:dartz/dartz.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/user_profile_entity.dart';
-import '../../domain/repositories/user_profile_repository.dart';
-import '../datasources/user_profile_remote_data_source.dart';
-import '../models/user_profile_model.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../domain/entities/user_profile_entity.dart';
+import '../../../domain/repositories/user_profile_repository.dart';
+import '../../datasources/user_profile_remote_data_source.dart';
+import '../../models/user_profile_model.dart';
 
 /// Implementation of UserProfileRepository
 ///
