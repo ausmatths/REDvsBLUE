@@ -10,6 +10,7 @@
         "cached_network_image",
         "cloud_firestore",
         "cupertino_icons",
+        "dartz",
         "dio",
         "dio_web_adapter",
         "equatable",
@@ -310,6 +311,11 @@
         "mime",
         "path"
       ]
+    },
+    {
+      "name": "dartz",
+      "version": "0.10.1",
+      "dependencies": []
     },
     {
       "name": "google_sign_in",

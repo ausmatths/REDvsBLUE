@@ -194,6 +194,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "dartz",
+      "rootUri": "file:///C:/Users/ausmatths/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dio",
       "rootUri": "file:///C:/Users/ausmatths/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.9.0",
       "packageUri": "lib/",
