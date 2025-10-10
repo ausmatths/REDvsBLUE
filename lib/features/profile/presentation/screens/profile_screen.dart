@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/widgets/default_avatar.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../domain/entities/user_profile_entity.dart';
 import '../providers/user_profile_providers.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -80,19 +81,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           data: (profile) {
             return _buildProfileContent(
               context,
-              displayName: profile.displayName,
-              email: profile.email,
-              photoURL: profile.photoUrl,
-              rating: profile.gmrPoints,
-              level: profile.medalLevel.toString().split('.').last,
-              matchesPlayed: profile.totalMatches,
-              wins: profile.wins,
-              losses: profile.losses,
-              winRate: profile.totalMatches > 0
-                  ? (profile.wins / profile.totalMatches * 100).toStringAsFixed(1)
-                  : '0.0',
-              sports: profile.sports,
-              achievements: profile.achievements,
+              profile: profile,
             );
           },
           loading: () => const Scaffold(
@@ -133,18 +122,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Widget _buildProfileContent(
       BuildContext context, {
-        required String displayName,
-        required String email,
-        String? photoURL,
-        required int rating,
-        required String level,
-        required int matchesPlayed,
-        required int wins,
-        required int losses,
-        required String winRate,
-        required List<String> sports,
-        required List<Achievement> achievements,
+        required UserProfileEntity profile,
       }) {
+    // Calculate win rate
+    final winRate = profile.matchesPlayed > 0
+        ? (profile.wins / profile.matchesPlayed * 100).toStringAsFixed(1)
+        : '0.0';
+
+    // Get medal level display name
+    final levelName = profile.medalLevel.displayName;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -170,13 +157,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       Stack(
                         children: [
                           // Display user's photo or default avatar
-                          photoURL != null && photoURL.isNotEmpty
+                          profile.photoUrl != null && profile.photoUrl!.isNotEmpty
                               ? CircleAvatar(
                             radius: 50,
                             backgroundColor: Colors.white,
                             child: ClipOval(
                               child: CachedNetworkImage(
-                                imageUrl: photoURL,
+                                imageUrl: profile.photoUrl!,
                                 width: 100,
                                 height: 100,
                                 fit: BoxFit.cover,
@@ -185,14 +172,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 errorWidget: (context, url, error) =>
                                     DefaultAvatar(
                                       size: 100,
-                                      name: displayName,
+                                      name: profile.displayName,
                                     ),
                               ),
                             ),
                           )
                               : DefaultAvatar(
                             size: 100,
-                            name: displayName,
+                            name: profile.displayName,
                           ),
                           Positioned(
                             bottom: 0,
@@ -214,9 +201,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // Name and Level
+                      // Name
                       Text(
-                        displayName,
+                        profile.displayName,
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -227,7 +214,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                       // Email
                       Text(
-                        email,
+                        profile.email,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.white70,
@@ -242,7 +229,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: _getLevelColor(level),
+                          color: _getLevelColor(profile.medalLevel),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
@@ -255,7 +242,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '$level • $rating GMR',
+                              '$levelName • ${profile.gmrPoints} GMR',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -271,11 +258,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildStatItem(
-                            matchesPlayed.toString(),
+                            profile.matchesPlayed.toString(),
                             'Matches',
                           ),
                           _buildStatItem(
-                            wins.toString(),
+                            profile.wins.toString(),
                             'Wins',
                           ),
                           _buildStatItem(
@@ -316,7 +303,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            sports.isEmpty
+                            profile.sports.isEmpty
                                 ? Text(
                               'No sports added yet',
                               style: TextStyle(
@@ -327,7 +314,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 : Wrap(
                               spacing: 8,
                               runSpacing: 8,
-                              children: sports
+                              children: profile.sports
                                   .map<Widget>((sport) => Chip(
                                 label: Text(sport),
                                 backgroundColor: AppColors
@@ -358,7 +345,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            achievements.isEmpty
+                            profile.achievements.isEmpty
                                 ? Text(
                               'No achievements yet',
                               style: TextStyle(
@@ -367,7 +354,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                             )
                                 : Column(
-                              children: achievements
+                              children: profile.achievements
                                   .take(5) // Show only last 5
                                   .map<Widget>((achievement) {
                                 return Container(
@@ -394,7 +381,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         ),
                                         child: Icon(
                                           _getAchievementIcon(
-                                              achievement.type),
+                                              achievement.icon),
                                           color: AppColors.primaryRed,
                                           size: 24,
                                         ),
@@ -570,37 +557,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 
-  Color _getLevelColor(String level) {
-    switch (level.toLowerCase()) {
-      case 'bronze':
+  Color _getLevelColor(MedalLevel level) {
+    switch (level) {
+      case MedalLevel.bronze:
         return const Color(0xFFCD7F32);
-      case 'silver':
+      case MedalLevel.silver:
         return const Color(0xFFC0C0C0);
-      case 'gold':
+      case MedalLevel.gold:
         return Colors.amber;
-      case 'platinum':
+      case MedalLevel.platinum:
         return const Color(0xFFE5E4E2);
-      case 'diamond':
+      case MedalLevel.diamond:
         return const Color(0xFFB9F2FF);
-      default:
-        return Colors.grey;
     }
   }
 
-  IconData _getAchievementIcon(AchievementType type) {
-    switch (type) {
-      case AchievementType.firstWin:
+  IconData _getAchievementIcon(String iconName) {
+    // Map icon names to IconData
+    switch (iconName.toLowerCase()) {
+      case 'trophy':
+      case 'emoji_events':
         return Icons.emoji_events;
-      case AchievementType.winStreak:
+      case 'fire':
+      case 'local_fire_department':
         return Icons.local_fire_department;
-      case AchievementType.matchMilestone:
+      case 'star':
         return Icons.star;
-      case AchievementType.rankUp:
+      case 'trending_up':
         return Icons.trending_up;
-      case AchievementType.tournament:
-        return Icons.emoji_events;
-      case AchievementType.special:
+      case 'grade':
         return Icons.grade;
+      case 'military_tech':
+        return Icons.military_tech;
+      default:
+        return Icons.star; // Default icon
     }
   }
 }
