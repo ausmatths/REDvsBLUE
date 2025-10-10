@@ -16,6 +16,62 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  bool _isCreatingProfile = false;
+
+  Future<void> _createProfileIfNeeded(String userId, String displayName, String email, String? photoUrl) async {
+    if (_isCreatingProfile) return;
+
+    setState(() {
+      _isCreatingProfile = true;
+    });
+
+    try {
+      // Check if profile exists
+      final checkExists = ref.read(checkProfileExistsProvider);
+      final existsResult = await checkExists(userId);
+
+      final exists = existsResult.fold(
+            (failure) => false,
+            (exists) => exists,
+      );
+
+      if (!exists) {
+        // Create profile
+        final controller = ref.read(userProfileControllerProvider.notifier);
+        await controller.createInitialProfile(
+          userId: userId,
+          displayName: displayName,
+          email: email,
+          photoUrl: photoUrl,
+        );
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Profile created successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error creating profile: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isCreatingProfile = false;
+        });
+      }
+    }
+  }
+
   Future<void> _handleLogout() async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -87,26 +143,103 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           loading: () => const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           ),
-          error: (error, stack) => Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 48, color: AppColors.error),
-                  const SizedBox(height: 16),
-                  Text('Error loading profile: $error'),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Refresh the profile
-                      ref.invalidate(userProfileStreamProvider(user.uid));
-                    },
-                    child: const Text('Retry'),
+          error: (error, stack) {
+            // Check if error is "Profile not found"
+            final errorMessage = error.toString();
+            if (errorMessage.contains('Profile not found') ||
+                errorMessage.contains('not found')) {
+              // Show create profile UI
+              return Scaffold(
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.person_add,
+                          size: 64,
+                          color: AppColors.primaryBlue,
+                        ),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Profile Not Found',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Let\'s create your profile to get started!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.grey600,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        _isCreatingProfile
+                            ? const CircularProgressIndicator()
+                            : ElevatedButton(
+                          onPressed: () {
+                            _createProfileIfNeeded(
+                              user.uid,
+                              user.displayName ?? 'User',
+                              user.email ?? '',
+                              user.photoURL,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                          ),
+                          child: const Text(
+                            'Create Profile',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
+              );
+            }
+
+            // Other errors
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, size: 48, color: AppColors.error),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Error loading profile: $error',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Refresh the profile
+                        ref.invalidate(userProfileStreamProvider(user.uid));
+                      },
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
       loading: () => const Scaffold(
@@ -358,13 +491,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   .take(5) // Show only last 5
                                   .map<Widget>((achievement) {
                                 return Container(
-                                  margin:
-                                  const EdgeInsets.only(bottom: 12),
+                                  margin: const EdgeInsets.only(bottom: 12),
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     color: AppColors.grey50,
-                                    borderRadius:
-                                    BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color: AppColors.grey200,
                                     ),
@@ -374,14 +505,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       Container(
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
-                                          color: AppColors.primaryRed
-                                              .withOpacity(0.1),
-                                          borderRadius:
-                                          BorderRadius.circular(8),
+                                          color: AppColors.primaryRed.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: Icon(
-                                          _getAchievementIcon(
-                                              achievement.icon),
+                                          _getAchievementIcon(achievement.icon),
                                           color: AppColors.primaryRed,
                                           size: 24,
                                         ),
@@ -389,14 +517,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       const SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               achievement.title,
                                               style: const TextStyle(
-                                                fontWeight:
-                                                FontWeight.w600,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                             Text(
@@ -424,7 +550,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         icon: Icons.edit,
                         title: 'Edit Profile',
                         onTap: () {
-                          // TODO: Navigate to edit profile screen
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Edit profile feature coming soon!'),
@@ -435,44 +560,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildMenuItem(
                         icon: Icons.history,
                         title: 'Match History',
-                        onTap: () {
-                          // TODO: Navigate to match history screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.bar_chart,
                         title: 'Statistics',
-                        onTap: () {
-                          // TODO: Navigate to statistics screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.people,
                         title: 'Friends',
-                        onTap: () {
-                          // TODO: Navigate to friends screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.settings,
                         title: 'Settings',
-                        onTap: () {
-                          // TODO: Navigate to settings screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.help_outline,
                         title: 'Help & Support',
-                        onTap: () {
-                          // TODO: Navigate to help screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.info_outline,
                         title: 'About',
-                        onTap: () {
-                          // TODO: Navigate to about screen
-                        },
+                        onTap: () {},
                       ),
                       _buildMenuItem(
                         icon: Icons.logout,
@@ -573,7 +686,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   IconData _getAchievementIcon(String iconName) {
-    // Map icon names to IconData
     switch (iconName.toLowerCase()) {
       case 'trophy':
       case 'emoji_events':
@@ -590,7 +702,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       case 'military_tech':
         return Icons.military_tech;
       default:
-        return Icons.star; // Default icon
+        return Icons.star;
     }
   }
 }
