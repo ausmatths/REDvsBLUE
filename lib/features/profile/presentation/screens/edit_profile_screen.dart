@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/user_profile_entity.dart';
@@ -26,7 +26,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController _displayNameController;
   late TextEditingController _phoneNumberController;
 
-  File? _selectedImage;
+  XFile? _selectedImage;  // Use XFile instead of File for cross-platform
   bool _isLoading = false;
   bool _isUploadingImage = false;
   final _formKey = GlobalKey<FormState>();
@@ -44,6 +44,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   ];
 
   late List<String> _selectedSports;
+
+  // Computed property for isBusy
+  bool get isBusy => _isLoading || _isUploadingImage;
 
   @override
   void initState() {
@@ -72,7 +75,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
       if (pickedFile != null) {
         setState(() {
-          _selectedImage = File(pickedFile.path);
+          _selectedImage = pickedFile;
         });
       }
     } catch (e) {
@@ -88,21 +91,30 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
-  /// Uploads image to Firebase Storage and returns the download URL
-  Future<String?> _uploadImageToStorage(File imageFile) async {
+  /// Uploads image to Firebase Storage (works on web and mobile)
+  Future<String?> _uploadImageToStorage(XFile imageFile) async {
     try {
       setState(() {
         _isUploadingImage = true;
       });
 
-      // Create a unique filename using userId and timestamp
+      // Create a unique filename
       final fileName = '${widget.profile.userId}_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final storageRef = FirebaseStorage.instance.ref().child('profile_photos/$fileName');
 
-      // Upload the file
-      final uploadTask = storageRef.putFile(imageFile);
+      // Read image bytes (works on both web and mobile)
+      final bytes = await imageFile.readAsBytes();
 
-      // Show upload progress (optional)
+      // Upload with metadata
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'userId': widget.profile.userId},
+      );
+
+      // Upload the bytes
+      final uploadTask = storageRef.putData(bytes, metadata);
+
+      // Show upload progress
       uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
         final progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         debugPrint('Upload progress: ${progress.toStringAsFixed(2)}%');
@@ -121,7 +133,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to upload image: $e'),
+            content: Text('Failed to upload image: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -168,14 +180,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         newPhotoUrl = await _uploadImageToStorage(_selectedImage!);
 
         if (newPhotoUrl == null) {
-          // Upload failed, but continue with other updates
           debugPrint('Photo upload failed, continuing with other updates');
         } else {
           debugPrint('New photo URL: $newPhotoUrl');
         }
       }
 
-      // Create updated profile with all changes
+      // Create updated profile
       final updatedProfile = widget.profile.copyWith(
         displayName: _displayNameController.text.trim(),
         phoneNumber: _phoneNumberController.text.trim().isEmpty
@@ -212,7 +223,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
         );
 
-        // Small delay to show success message
         await Future.delayed(const Duration(milliseconds: 500));
 
         if (mounted) {
@@ -243,8 +253,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isBusy = _isLoading || _isUploadingImage;
-
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -391,34 +399,43 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       children: [
         Stack(
           children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: AppColors.grey200,
-              backgroundImage: _selectedImage != null
-                  ? FileImage(_selectedImage!)
-                  : (widget.profile.photoUrl != null && widget.profile.photoUrl!.isNotEmpty
-                  ? NetworkImage(widget.profile.photoUrl!)
-                  : null) as ImageProvider?,
-              child: _selectedImage == null &&
-                  (widget.profile.photoUrl == null || widget.profile.photoUrl!.isEmpty)
-                  ? Icon(
-                Icons.person,
-                size: 60,
-                color: AppColors.grey600,
-              )
-                  : null,
+            FutureBuilder<dynamic>(
+              future: _selectedImage?.readAsBytes(),
+              builder: (context, snapshot) {
+                ImageProvider? imageProvider;
+
+                if (snapshot.hasData && snapshot.data != null) {
+                  // Show newly selected image
+                  imageProvider = MemoryImage(snapshot.data);
+                } else if (widget.profile.photoUrl != null &&
+                    widget.profile.photoUrl!.isNotEmpty) {
+                  // Show existing profile photo
+                  imageProvider = NetworkImage(widget.profile.photoUrl!);
+                }
+
+                return CircleAvatar(
+                  radius: 60,
+                  backgroundColor: AppColors.grey200,
+                  backgroundImage: imageProvider,
+                  child: imageProvider == null
+                      ? Icon(
+                    Icons.person,
+                    size: 60,
+                    color: AppColors.grey600,
+                  )
+                      : null,
+                );
+              },
             ),
             Positioned(
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: (_isLoading || _isUploadingImage) ? null : _pickImage,
+                onTap: isBusy ? null : _pickImage,
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: (_isLoading || _isUploadingImage)
-                        ? AppColors.grey400
-                        : AppColors.primaryBlue,
+                    color: isBusy ? AppColors.grey400 : AppColors.primaryBlue,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: AppColors.background,
@@ -428,9 +445,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: Icon(
                     Icons.camera_alt,
                     size: 20,
-                    color: (_isLoading || _isUploadingImage)
-                        ? AppColors.grey600
-                        : Colors.white,
+                    color: isBusy ? AppColors.grey600 : Colors.white,
                   ),
                 ),
               ),
@@ -553,10 +568,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       runSpacing: 8,
       children: _availableSports.map((sport) {
         final isSelected = _selectedSports.contains(sport);
+
         return FilterChip(
           label: Text(sport),
           selected: isSelected,
-          onSelected: (_isLoading || _isUploadingImage) ? null : (selected) {
+          onSelected: isBusy ? null : (selected) {
             setState(() {
               if (selected) {
                 _selectedSports.add(sport);
