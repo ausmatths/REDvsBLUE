@@ -59,18 +59,30 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   }
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 800,
-      maxHeight: 800,
-      imageQuality: 85,
-    );
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 85,
+      );
 
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+      if (pickedFile != null) {
+        setState(() {
+          _selectedImage = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error picking image: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      debugPrint('Error picking image: $e');
     }
   }
 
@@ -94,34 +106,51 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     });
 
     try {
-      // Update profile with new information
-      // Note: Currently only updates sports. To update display name and phone,
-      // you'll need to create additional methods in the controller
+      debugPrint('Starting profile update...');
+      debugPrint('User ID: ${widget.profile.userId}');
+      debugPrint('Selected sports: $_selectedSports');
 
-      // TODO: If image is selected, upload it to Firebase Storage first
-      // and get the URL, then update the profile with the new URL
-
-      // Update sports through the controller
-      await ref.read(userProfileControllerProvider.notifier).updateSports(
-        userId: widget.profile.userId,
+      // Use the simpler updateProfile method instead of just updateSports
+      final updatedProfile = widget.profile.copyWith(
+        displayName: _displayNameController.text.trim(),
+        phoneNumber: _phoneNumberController.text.trim().isEmpty
+            ? null
+            : _phoneNumberController.text.trim(),
         sports: _selectedSports,
+        updatedAt: DateTime.now(),
       );
+
+      debugPrint('Calling updateProfile...');
+      await ref.read(userProfileControllerProvider.notifier).updateProfile(updatedProfile);
+
+      debugPrint('Profile updated successfully!');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Profile updated successfully!'),
             backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
           ),
         );
-        Navigator.pop(context, true); // Return true to indicate success
+
+        // Add a small delay to show the success message
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        if (mounted) {
+          Navigator.pop(context, true);
+        }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Error updating profile: $e');
+      debugPrint('Stack trace: $stackTrace');
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update profile: $e'),
+            content: Text('Failed to update profile: ${e.toString()}'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
           ),
         );
       }
@@ -144,7 +173,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: _isLoading ? null : () => Navigator.pop(context),
         ),
         actions: [
           if (_isLoading)
@@ -195,6 +224,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       controller: _displayNameController,
                       label: 'Display Name',
                       icon: Icons.person,
+                      enabled: !_isLoading,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'Display name is required';
@@ -223,6 +253,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       label: 'Phone Number (Optional)',
                       icon: Icons.phone,
                       keyboardType: TextInputType.phone,
+                      enabled: !_isLoading,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           if (value.length < 10) {
@@ -283,21 +314,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: _pickImage,
+                onTap: _isLoading ? null : _pickImage,
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue,
+                    color: _isLoading ? AppColors.grey400 : AppColors.primaryBlue,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: AppColors.background,
                       width: 3,
                     ),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.camera_alt,
                     size: 20,
-                    color: Colors.white,
+                    color: _isLoading ? AppColors.grey600 : Colors.white,
                   ),
                 ),
               ),
@@ -306,7 +337,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
         const SizedBox(height: 12),
         Text(
-          'Tap to change photo',
+          _isLoading ? 'Saving...' : 'Tap to change photo',
           style: TextStyle(
             fontSize: 14,
             color: AppColors.grey600,
@@ -322,18 +353,20 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     required IconData icon,
     TextInputType? keyboardType,
     String? Function(String?)? validator,
+    bool enabled = true,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,
+      enabled: enabled,
       style: TextStyle(color: AppColors.grey900),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: AppColors.grey600),
-        prefixIcon: Icon(icon, color: AppColors.primaryBlue),
+        prefixIcon: Icon(icon, color: enabled ? AppColors.primaryBlue : AppColors.grey400),
         filled: true,
-        fillColor: AppColors.grey100,
+        fillColor: enabled ? AppColors.grey100 : AppColors.grey200,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -349,6 +382,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
       ),
     );
@@ -403,7 +440,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return FilterChip(
           label: Text(sport),
           selected: isSelected,
-          onSelected: (selected) {
+          onSelected: _isLoading ? null : (selected) {
             setState(() {
               if (selected) {
                 _selectedSports.add(sport);

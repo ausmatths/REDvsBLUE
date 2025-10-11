@@ -6,6 +6,15 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<!-- Image Picker Permissions -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library so you can update your profile picture</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>We need camera access so you can take profile pictures</string>
+
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need permission to save your profile picture</string>
 	<key>CFBundleDisplayName</key>
 	<string>Redvsblue</string>
 	<key>CFBundleExecutable</key>
