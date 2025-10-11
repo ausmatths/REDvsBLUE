@@ -43,6 +43,7 @@ dependencies:
   cached_network_image: ^3.4.0
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.3.2
+  image_picker: ^1.0.0
 
   # Location
   geolocator: ^10.1.1
