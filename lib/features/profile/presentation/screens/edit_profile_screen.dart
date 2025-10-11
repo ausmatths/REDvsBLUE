@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/user_profile_entity.dart';
@@ -27,6 +28,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   File? _selectedImage;
   bool _isLoading = false;
+  bool _isUploadingImage = false;
   final _formKey = GlobalKey<FormState>();
 
   // Sports options
@@ -86,6 +88,54 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     }
   }
 
+  /// Uploads image to Firebase Storage and returns the download URL
+  Future<String?> _uploadImageToStorage(File imageFile) async {
+    try {
+      setState(() {
+        _isUploadingImage = true;
+      });
+
+      // Create a unique filename using userId and timestamp
+      final fileName = '${widget.profile.userId}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final storageRef = FirebaseStorage.instance.ref().child('profile_photos/$fileName');
+
+      // Upload the file
+      final uploadTask = storageRef.putFile(imageFile);
+
+      // Show upload progress (optional)
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        final progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        debugPrint('Upload progress: ${progress.toStringAsFixed(2)}%');
+      });
+
+      // Wait for upload to complete
+      final snapshot = await uploadTask;
+
+      // Get download URL
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      debugPrint('Image uploaded successfully: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      debugPrint('Error uploading image: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to upload image: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      return null;
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUploadingImage = false;
+        });
+      }
+    }
+  }
+
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -110,13 +160,29 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       debugPrint('User ID: ${widget.profile.userId}');
       debugPrint('Selected sports: $_selectedSports');
 
-      // Use the simpler updateProfile method instead of just updateSports
+      String? newPhotoUrl = widget.profile.photoUrl;
+
+      // Upload new image if one was selected
+      if (_selectedImage != null) {
+        debugPrint('Uploading new profile photo...');
+        newPhotoUrl = await _uploadImageToStorage(_selectedImage!);
+
+        if (newPhotoUrl == null) {
+          // Upload failed, but continue with other updates
+          debugPrint('Photo upload failed, continuing with other updates');
+        } else {
+          debugPrint('New photo URL: $newPhotoUrl');
+        }
+      }
+
+      // Create updated profile with all changes
       final updatedProfile = widget.profile.copyWith(
         displayName: _displayNameController.text.trim(),
         phoneNumber: _phoneNumberController.text.trim().isEmpty
             ? null
             : _phoneNumberController.text.trim(),
         sports: _selectedSports,
+        photoUrl: newPhotoUrl,
         updatedAt: DateTime.now(),
       );
 
@@ -127,14 +193,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile updated successfully!'),
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    _selectedImage != null
+                        ? 'Profile and photo updated successfully!'
+                        : 'Profile updated successfully!',
+                  ),
+                ),
+              ],
+            ),
             backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           ),
         );
 
-        // Add a small delay to show the success message
+        // Small delay to show success message
         await Future.delayed(const Duration(milliseconds: 500));
 
         if (mounted) {
@@ -165,6 +243,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isBusy = _isLoading || _isUploadingImage;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -173,10 +253,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: _isLoading ? null : () => Navigator.pop(context),
+          onPressed: isBusy ? null : () => Navigator.pop(context),
         ),
         actions: [
-          if (_isLoading)
+          if (isBusy)
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
@@ -211,6 +291,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               // Profile Photo Section
               _buildProfilePhotoSection(),
 
+              if (_isUploadingImage) ...[
+                const SizedBox(height: 12),
+                Text(
+                  'Uploading photo...',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.primaryBlue,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const SizedBox(
+                  width: 100,
+                  child: LinearProgressIndicator(),
+                ),
+              ],
+
               const SizedBox(height: 30),
 
               // Form Fields
@@ -224,7 +321,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       controller: _displayNameController,
                       label: 'Display Name',
                       icon: Icons.person,
-                      enabled: !_isLoading,
+                      enabled: !isBusy,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'Display name is required';
@@ -253,7 +350,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       label: 'Phone Number (Optional)',
                       icon: Icons.phone,
                       keyboardType: TextInputType.phone,
-                      enabled: !_isLoading,
+                      enabled: !isBusy,
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           if (value.length < 10) {
@@ -299,10 +396,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               backgroundColor: AppColors.grey200,
               backgroundImage: _selectedImage != null
                   ? FileImage(_selectedImage!)
-                  : (widget.profile.photoUrl != null
+                  : (widget.profile.photoUrl != null && widget.profile.photoUrl!.isNotEmpty
                   ? NetworkImage(widget.profile.photoUrl!)
                   : null) as ImageProvider?,
-              child: _selectedImage == null && widget.profile.photoUrl == null
+              child: _selectedImage == null &&
+                  (widget.profile.photoUrl == null || widget.profile.photoUrl!.isEmpty)
                   ? Icon(
                 Icons.person,
                 size: 60,
@@ -314,11 +412,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: _isLoading ? null : _pickImage,
+                onTap: (_isLoading || _isUploadingImage) ? null : _pickImage,
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: _isLoading ? AppColors.grey400 : AppColors.primaryBlue,
+                    color: (_isLoading || _isUploadingImage)
+                        ? AppColors.grey400
+                        : AppColors.primaryBlue,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: AppColors.background,
@@ -328,7 +428,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   child: Icon(
                     Icons.camera_alt,
                     size: 20,
-                    color: _isLoading ? AppColors.grey600 : Colors.white,
+                    color: (_isLoading || _isUploadingImage)
+                        ? AppColors.grey600
+                        : Colors.white,
                   ),
                 ),
               ),
@@ -337,12 +439,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         ),
         const SizedBox(height: 12),
         Text(
-          _isLoading ? 'Saving...' : 'Tap to change photo',
+          _isUploadingImage
+              ? 'Uploading...'
+              : (_isLoading ? 'Saving...' : 'Tap to change photo'),
           style: TextStyle(
             fontSize: 14,
             color: AppColors.grey600,
           ),
         ),
+        if (_selectedImage != null && !_isUploadingImage)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              'New photo selected',
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.primaryBlue,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -440,7 +556,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return FilterChip(
           label: Text(sport),
           selected: isSelected,
-          onSelected: _isLoading ? null : (selected) {
+          onSelected: (_isLoading || _isUploadingImage) ? null : (selected) {
             setState(() {
               if (selected) {
                 _selectedSports.add(sport);
