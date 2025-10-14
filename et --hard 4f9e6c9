@@ -1,0 +1,52 @@
+[33mfde773f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Update .gitignore to exclude build files
+[33me6043e2[m Remove build files from git
+[33mfc5063d[m feat: add asset files and configuration for fonts, icons, and animations
+[33m4f9e6c9[m Unversioned  Files
+[33m48d7974[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m feat: update Flutter plugin dependencies and configuration for image picker support
+[33md359cc3[m feat: update image handling in profile editing to support cross-platform compatibility
+[33mbc58561[m feat: implement image upload functionality to Firebase Storage in profile editing
+[33mc1ef61c[m feat: add image picker functionality and permissions for profile updates
+[33me844a4d[m feat: integrate image picker for profile editing and update dependencies
+[33md9a5ee9[m feat: integrate image picker for profile editing and update dependencies
+[33mb10941b[m feat: add profile creation flow and error handling in profile screen
+[33m63a97c8[m feat: add profile creation flow and error handling in profile screen
+[33m5512e01[m feat: refactor profile screen to use UserProfileEntity for improved data handling
+[33m8a1fc56[m feat: add IndexedDB log and manifest files for improved database management
+[33md0ffaf1[m feat: add failure handling classes for improved error management
+[33m9dc3a25[m refactor: update import paths in user profile repository implementation
+[33mf252aea[m feat: implement user profile management with Firestore integration and authentication
+[33m36bdd67[m feat: add new log and state files for Firebase integration and user preferences
+[33mb255dfe[m feat: enhance profile screen with user authentication and logout functionality
+[33mf5ca56e[m chore: update version to 3.35.6 and regenerate plugin dependencies
+[33m69f062e[m fix: update project configuration for Firebase integration and adjust permissions
+[33m0861d8f[m unresolved files
+[33m9a1b523[m fix: update authentication flow to use centralized AuthRepository and add Firebase Storage support
+[33m9488272[m feat: add comprehensive clean architecture documentation
+[33m0f9f484[m docs: add contributing guidelines and project documentation
+[33m502774e[m add: update device streaming configuration with new device options and logs
+[33m39c4fe0[m[33m ([m[1;31morigin/docs-update[m[33m)[m add: enhance authentication widget with loading and error handling states
+[33mdd14813[m add: update venue details and booking screens with default venue data and navigation improvements
+[33mdafd009[m add: enhance profile screen with user data display and improved layout
+[33m7083e25[m add: implement venue listing screen with filtering and detailed venue cards
+[33m23ff156[m add: enhance device streaming configuration with new device options and default settings
+[33mdcd2450[m refactor: streamline login screen by removing direct repository import and updating loading state management
+[33mecc4cfe[m add: update .flutter-plugins-dependencies file to reflect current plugin versions and configurations
+[33m98d69cc[m add: create initial database and configuration files for Chrome settings and storage
+[33me9da53d[m add: update Google Sign-In client ID and Firebase SDK versions in index.html; enhance Firebase initialization in main.dart
+[33mbd319d8[m add: update authentication providers and configuration for Google Sign-In
+[33md66fd32[m add: implement Firebase initialization and update web configuration
+[33m03de1ce[m add: initialize Firebase in main application entry point
+[33m47a38a4[m fix: correct authStateChanges stream source in auth_providers.dart
+[33mdee4e13[m add log and database recovery functionality with updated preferences
+[33mcd82514[m add Google Sign-In integration and update authentication providers
+[33ma312abe[m add authentication providers and integrate Google sign-in functionality
+[33m71d033a[m add Firebase dependencies and update web plugin registration
+[33m0fadf3e[m update build configuration and remove unused dependencies
+[33m7dfc694[m add venue card widget and implement venue list screen with mock data
+[33mc5dbf2e[m implement matchmaking and profile screens with sport selection and statistics display
+[33m24f83fc[m implement match search screen and update navigation structure
+[33mb76a862[m implement player profile screen with user data, achievements, and match history
+[33m9153a1b[m implement matchmaking feature with sport selection and animated search
+[33m47beef0[m refactor home screen and implement navigation structure with multiple pages
+[33ma99c9c6[m add import for flutter services in register screen
+[33m54b026e[m initialize Flutter project structure and add essential files
