@@ -572,7 +572,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildMenuItem(
                         icon: Icons.history,
                         title: 'Match History',
-                        onTap: () {},
+                        onTap: () {
+                          context.push('/match-history');
+                        },
                       ),
                       _buildMenuItem(
                         icon: Icons.bar_chart,

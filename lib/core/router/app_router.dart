@@ -7,6 +7,8 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/otp_verification_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/profile/presentation/screens/match_detail_screen.dart';
+import '../../features/profile/presentation/screens/match_history_screen.dart';
 import '../../features/venue/presentation/screens/venue_list_screen.dart';
 import '../../features/venue/presentation/screens/venue_details_screen.dart';
 import '../../features/venue/presentation/screens/venue_booking_screen.dart';
@@ -131,6 +133,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             'sports': ['badminton', 'tennis'],
           };
           return VenueBookingScreen(venue: venue);
+        },
+      ),
+      GoRoute(
+        path: '/match-history',
+        name: 'match-history',
+        builder: (context, state) => const MatchHistoryScreen(),
+      ),
+
+      GoRoute(
+        path: '/match-history/:id',
+        name: 'match-detail',
+        builder: (context, state) {
+          final matchData = state.extra as Map<String, dynamic>;
+          return MatchDetailScreen(match: matchData);
         },
       ),
 
