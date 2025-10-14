@@ -1,26 +1,33 @@
+// lib/features/profile/presentation/widgets/match_history_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/sport_types.dart';
+import '../../domain/entities/match_entity.dart';
+import '../../domain/entities/user_profile_entity.dart';
 
 class MatchHistoryCard extends StatelessWidget {
-  final Map<String, dynamic> match;
+  final MatchEntity match;
+  final String userId;
   final VoidCallback onTap;
 
   const MatchHistoryCard({
     super.key,
     required this.match,
+    required this.userId,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final result = match['result'] as String;
-    final isWin = result == 'win';
-    final isLoss = result == 'loss';
-    final sport = match['sport'] as String;
-    final date = match['date'] as DateTime;
-    final gmrChange = match['gmrChange'] as int;
+    // Get opponent info for this user
+    final opponentInfo = match.getOpponentInfo(userId);
+    final outcome = opponentInfo.outcome;
+    final gmrChange = opponentInfo.gmrChange;
+
+    final isWin = outcome == MatchOutcome.win;
+    final isLoss = outcome == MatchOutcome.loss;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -59,7 +66,7 @@ class MatchHistoryCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
-                      SportTypes.getSportIcon(sport),
+                      SportTypes.getSportIcon(match.sport),
                       color: AppColors.primaryBlue,
                       size: 24,
                     ),
@@ -72,7 +79,7 @@ class MatchHistoryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          sport,
+                          match.sport,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -81,7 +88,7 @@ class MatchHistoryCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          match['matchType'] ?? 'Casual',
+                          match.matchType.toUpperCase(),
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.grey600,
@@ -92,7 +99,7 @@ class MatchHistoryCard extends StatelessWidget {
                   ),
 
                   // Result Badge
-                  _buildResultBadge(result),
+                  _buildResultBadge(outcome),
                 ],
               ),
 
@@ -107,12 +114,12 @@ class MatchHistoryCard extends StatelessWidget {
                   CircleAvatar(
                     radius: 20,
                     backgroundColor: AppColors.primaryRed.withOpacity(0.2),
-                    backgroundImage: match['opponentPhoto'] != null
-                        ? NetworkImage(match['opponentPhoto'])
+                    backgroundImage: opponentInfo.photo != null
+                        ? NetworkImage(opponentInfo.photo!)
                         : null,
-                    child: match['opponentPhoto'] == null
+                    child: opponentInfo.photo == null
                         ? Text(
-                      match['opponentName'][0].toUpperCase(),
+                      opponentInfo.name[0].toUpperCase(),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -129,7 +136,7 @@ class MatchHistoryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          match['opponentName'] ?? 'Unknown',
+                          opponentInfo.name,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -138,7 +145,7 @@ class MatchHistoryCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          match['venue'] ?? 'Unknown Venue',
+                          match.venue,
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.grey600,
@@ -161,7 +168,7 @@ class MatchHistoryCard extends StatelessWidget {
                   Expanded(
                     child: _buildInfoChip(
                       icon: Icons.scoreboard,
-                      label: match['score'] ?? 'N/A',
+                      label: match.score,
                       color: AppColors.grey700,
                     ),
                   ),
@@ -171,7 +178,7 @@ class MatchHistoryCard extends StatelessWidget {
                   Expanded(
                     child: _buildInfoChip(
                       icon: Icons.calendar_today,
-                      label: _formatDate(date),
+                      label: _formatDate(match.matchDate),
                       color: AppColors.grey700,
                     ),
                   ),
@@ -188,36 +195,31 @@ class MatchHistoryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildResultBadge(String result) {
+  Widget _buildResultBadge(MatchOutcome outcome) {
     Color backgroundColor;
     Color textColor;
     IconData icon;
     String text;
 
-    switch (result) {
-      case 'win':
+    switch (outcome) {
+      case MatchOutcome.win:
         backgroundColor = AppColors.success.withOpacity(0.1);
         textColor = AppColors.success;
         icon = Icons.emoji_events;
         text = 'WIN';
         break;
-      case 'loss':
+      case MatchOutcome.loss:
         backgroundColor = AppColors.error.withOpacity(0.1);
         textColor = AppColors.error;
         icon = Icons.close;
         text = 'LOSS';
         break;
-      case 'draw':
+      case MatchOutcome.draw:
         backgroundColor = AppColors.grey300;
         textColor = AppColors.grey700;
         icon = Icons.horizontal_rule;
         text = 'DRAW';
         break;
-      default:
-        backgroundColor = AppColors.grey300;
-        textColor = AppColors.grey700;
-        icon = Icons.help_outline;
-        text = 'N/A';
     }
 
     return Container(

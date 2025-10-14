@@ -1,110 +1,183 @@
+// lib/features/profile/presentation/screens/match_detail_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/sport_types.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../domain/entities/user_profile_entity.dart';
+import '../providers/match_providers.dart';
 
-class MatchDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> match;
+class MatchDetailScreen extends ConsumerWidget {
+  final String matchId;
 
   const MatchDetailScreen({
     super.key,
-    required this.match,
+    required this.matchId,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final result = match['result'] as String;
-    final isWin = result == 'win';
-    final isLoss = result == 'loss';
+  Widget build(BuildContext context, WidgetRef ref) {
+    final matchAsync = ref.watch(matchByIdProvider(matchId));
+    final userAsync = ref.watch(authStateChangesProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.grey50,
-      body: CustomScrollView(
-        slivers: [
-          // App Bar with Result
-          SliverAppBar(
-            expandedHeight: 200,
-            pinned: true,
-            backgroundColor: isWin
-                ? AppColors.success
-                : isLoss
-                ? AppColors.error
-                : AppColors.grey600,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                result.toUpperCase(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  color: Colors.white,
-                ),
-              ),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: isWin
-                        ? [AppColors.success, AppColors.success.withOpacity(0.7)]
-                        : isLoss
-                        ? [AppColors.error, AppColors.error.withOpacity(0.7)]
-                        : [AppColors.grey600, AppColors.grey500],
+    return userAsync.when(
+      data: (user) {
+        if (user == null) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Please log in to view match details'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Go Back'),
                   ),
-                ),
-                child: Center(
-                  child: Icon(
-                    isWin
-                        ? Icons.emoji_events
-                        : isLoss
-                        ? Icons.close
-                        : Icons.horizontal_rule,
-                    size: 80,
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
+                ],
               ),
             ),
-          ).animate().fadeIn(duration: 300.ms),
+          );
+        }
 
-          // Content
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
+        return matchAsync.when(
+          data: (match) {
+            final opponentInfo = match.getOpponentInfo(user.uid);
+            final outcome = opponentInfo.outcome;
+            final gmrChange = opponentInfo.gmrChange;
 
-                // GMR Change Card
-                _buildGMRCard(),
+            final isWin = outcome == MatchOutcome.win;
+            final isLoss = outcome == MatchOutcome.loss;
 
-                // Match Info Card
-                _buildMatchInfoCard(),
+            return Scaffold(
+              backgroundColor: AppColors.grey50,
+              body: CustomScrollView(
+                slivers: [
+                  // App Bar with Result
+                  SliverAppBar(
+                    expandedHeight: 200,
+                    pinned: true,
+                    backgroundColor: isWin
+                        ? AppColors.success
+                        : isLoss
+                        ? AppColors.error
+                        : AppColors.grey600,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: Text(
+                        outcome.name.toUpperCase(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                      background: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: isWin
+                                ? [AppColors.success, AppColors.success.withOpacity(0.7)]
+                                : isLoss
+                                ? [AppColors.error, AppColors.error.withOpacity(0.7)]
+                                : [AppColors.grey600, AppColors.grey500],
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            isWin
+                                ? Icons.emoji_events
+                                : isLoss
+                                ? Icons.close
+                                : Icons.horizontal_rule,
+                            size: 80,
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ).animate().fadeIn(duration: 300.ms),
 
-                // Opponent Card
-                _buildOpponentCard(),
+                  // Content
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16),
 
-                // Venue Card
-                _buildVenueCard(),
+                        // GMR Change Card
+                        _buildGMRCard(gmrChange),
 
-                // Score Breakdown (if available)
-                if (match['scoreBreakdown'] != null) _buildScoreBreakdown(),
+                        // Match Info Card
+                        _buildMatchInfoCard(match),
 
-                // Stats Card (if available)
-                if (match['stats'] != null) _buildStatsCard(),
+                        // Opponent Card
+                        _buildOpponentCard(opponentInfo.name, opponentInfo.photo),
 
-                // Actions
-                _buildActionsCard(context),
+                        // Venue Card
+                        _buildVenueCard(match.venue, match.venueId),
 
-                const SizedBox(height: 32),
-              ],
+                        // Actions
+                        _buildActionsCard(context),
+
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          loading: () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+          error: (error, stack) => Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: AppColors.error,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Error loading match',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    error.toString(),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      ref.invalidate(matchByIdProvider(matchId));
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
+        );
+      },
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(
+          child: Text('Error: $error'),
+        ),
       ),
     );
   }
 
-  Widget _buildGMRCard() {
-    final gmrChange = match['gmrChange'] as int;
+  Widget _buildGMRCard(int gmrChange) {
     final isPositive = gmrChange > 0;
     final isNegative = gmrChange < 0;
 
@@ -169,10 +242,7 @@ class MatchDetailScreen extends StatelessWidget {
     ).animate().fadeIn(delay: 100.ms, duration: 400.ms).slideX(begin: -0.2, end: 0);
   }
 
-  Widget _buildMatchInfoCard() {
-    final date = match['date'] as DateTime;
-    final sport = match['sport'] as String;
-
+  Widget _buildMatchInfoCard(match) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(20),
@@ -193,7 +263,7 @@ class MatchDetailScreen extends StatelessWidget {
           Row(
             children: [
               Icon(
-                SportTypes.getSportIcon(sport),
+                SportTypes.getSportIcon(match.sport),
                 color: AppColors.primaryBlue,
                 size: 24,
               ),
@@ -211,32 +281,32 @@ class MatchDetailScreen extends StatelessWidget {
           _buildDetailRow(
             icon: Icons.sports,
             label: 'Sport',
-            value: sport,
+            value: match.sport,
           ),
           const SizedBox(height: 12),
           _buildDetailRow(
             icon: Icons.emoji_events,
             label: 'Match Type',
-            value: match['matchType'] ?? 'Casual',
+            value: match.matchType.toUpperCase(),
           ),
           const SizedBox(height: 12),
           _buildDetailRow(
             icon: Icons.calendar_today,
             label: 'Date',
-            value: DateFormat('MMM dd, yyyy • h:mm a').format(date),
+            value: DateFormat('MMM dd, yyyy • h:mm a').format(match.matchDate),
           ),
           const SizedBox(height: 12),
           _buildDetailRow(
             icon: Icons.scoreboard,
             label: 'Score',
-            value: match['score'] ?? 'N/A',
+            value: match.score,
           ),
         ],
       ),
     ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideX(begin: -0.2, end: 0);
   }
 
-  Widget _buildOpponentCard() {
+  Widget _buildOpponentCard(String opponentName, String? opponentPhoto) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(20),
@@ -257,12 +327,12 @@ class MatchDetailScreen extends StatelessWidget {
           CircleAvatar(
             radius: 30,
             backgroundColor: AppColors.primaryRed,
-            backgroundImage: match['opponentPhoto'] != null
-                ? NetworkImage(match['opponentPhoto'])
+            backgroundImage: opponentPhoto != null
+                ? NetworkImage(opponentPhoto)
                 : null,
-            child: match['opponentPhoto'] == null
+            child: opponentPhoto == null
                 ? Text(
-              match['opponentName'][0].toUpperCase(),
+              opponentName[0].toUpperCase(),
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -285,7 +355,7 @@ class MatchDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  match['opponentName'] ?? 'Unknown',
+                  opponentName,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -306,7 +376,7 @@ class MatchDetailScreen extends StatelessWidget {
     ).animate().fadeIn(delay: 300.ms, duration: 400.ms).slideX(begin: -0.2, end: 0);
   }
 
-  Widget _buildVenueCard() {
+  Widget _buildVenueCard(String venue, String? venueId) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(20),
@@ -343,7 +413,7 @@ class MatchDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            match['venue'] ?? 'Unknown Venue',
+            venue,
             style: const TextStyle(
               fontSize: 16,
               color: AppColors.grey800,
@@ -363,16 +433,6 @@ class MatchDetailScreen extends StatelessWidget {
         ],
       ),
     ).animate().fadeIn(delay: 400.ms, duration: 400.ms).slideX(begin: -0.2, end: 0);
-  }
-
-  Widget _buildScoreBreakdown() {
-    // TODO: Implement score breakdown for different sports
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildStatsCard() {
-    // TODO: Implement stats card with match statistics
-    return const SizedBox.shrink();
   }
 
   Widget _buildActionsCard(BuildContext context) {

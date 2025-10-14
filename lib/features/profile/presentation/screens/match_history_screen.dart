@@ -1,9 +1,13 @@
+// lib/features/profile/presentation/screens/match_history_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/sport_types.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../providers/match_providers.dart';
 import '../widgets/match_history_card.dart';
 import '../widgets/sport_filter_chip.dart';
 
@@ -18,77 +22,6 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
   String _selectedSport = 'All';
   final ScrollController _scrollController = ScrollController();
 
-  // Mock data - Replace with actual Riverpod provider later
-  final List<Map<String, dynamic>> _mockMatches = [
-    {
-      'id': '1',
-      'sport': 'Badminton',
-      'opponentName': 'Rahul Sharma',
-      'opponentPhoto': null,
-      'result': 'win',
-      'score': '21-18, 21-15',
-      'date': DateTime.now().subtract(const Duration(days: 1)),
-      'venue': 'SportZone Arena',
-      'gmrChange': 25,
-      'matchType': 'Ranked',
-    },
-    {
-      'id': '2',
-      'sport': 'Football',
-      'opponentName': 'Blue Dragons',
-      'opponentPhoto': null,
-      'result': 'loss',
-      'score': '2-3',
-      'date': DateTime.now().subtract(const Duration(days: 3)),
-      'venue': 'City Sports Complex',
-      'gmrChange': -15,
-      'matchType': 'Tournament',
-    },
-    {
-      'id': '3',
-      'sport': 'Badminton',
-      'opponentName': 'Priya Patel',
-      'opponentPhoto': null,
-      'result': 'win',
-      'score': '21-12, 19-21, 21-16',
-      'date': DateTime.now().subtract(const Duration(days: 5)),
-      'venue': 'Elite Badminton Center',
-      'gmrChange': 30,
-      'matchType': 'Casual',
-    },
-    {
-      'id': '4',
-      'sport': 'Cricket',
-      'opponentName': 'Red Warriors',
-      'opponentPhoto': null,
-      'result': 'win',
-      'score': '185/7 vs 180/9',
-      'date': DateTime.now().subtract(const Duration(days: 7)),
-      'venue': 'Grand Cricket Stadium',
-      'gmrChange': 28,
-      'matchType': 'Ranked',
-    },
-    {
-      'id': '5',
-      'sport': 'Badminton',
-      'opponentName': 'Amit Kumar',
-      'opponentPhoto': null,
-      'result': 'draw',
-      'score': '21-19, 18-21',
-      'date': DateTime.now().subtract(const Duration(days: 10)),
-      'venue': 'SportZone Arena',
-      'gmrChange': 0,
-      'matchType': 'Casual',
-    },
-  ];
-
-  List<Map<String, dynamic>> get _filteredMatches {
-    if (_selectedSport == 'All') {
-      return _mockMatches;
-    }
-    return _mockMatches.where((match) => match['sport'] == _selectedSport).toList();
-  }
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -97,6 +30,53 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Get current user ID
+    final userAsync = ref.watch(authStateChangesProvider);
+
+    return userAsync.when(
+      data: (user) {
+        if (user == null) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Please log in to view match history'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => context.go('/login'),
+                    child: const Text('Log In'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return _buildMatchHistoryContent(user.uid);
+      },
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        body: Center(
+          child: Text('Error: $error'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMatchHistoryContent(String userId) {
+    // Watch matches based on selected sport
+    final matchesAsync = _selectedSport == 'All'
+        ? ref.watch(userMatchesProvider(userId))
+        : ref.watch(userMatchesBySportProvider(userId, _selectedSport));
+
+    // Watch stats for the selected sport
+    final statsAsync = _selectedSport == 'All'
+        ? ref.watch(userMatchStatsProvider(userId))
+        : ref.watch(userMatchStatsBySportProvider(userId, _selectedSport));
+
     return Scaffold(
       backgroundColor: AppColors.grey50,
       appBar: AppBar(
@@ -150,31 +130,78 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
           const Divider(height: 1),
 
           // Stats Summary
-          _buildStatsSummary(),
+          statsAsync.when(
+            data: (stats) => _buildStatsSummary(stats),
+            loading: () => Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+            error: (error, stack) => const SizedBox.shrink(),
+          ),
 
           // Match List
           Expanded(
-            child: _filteredMatches.isEmpty
-                ? _buildEmptyState()
-                : RefreshIndicator(
-              onRefresh: _refreshMatches,
-              child: ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.all(16),
-                itemCount: _filteredMatches.length,
-                itemBuilder: (context, index) {
-                  final match = _filteredMatches[index];
-                  return MatchHistoryCard(
-                    match: match,
-                    onTap: () => _navigateToMatchDetail(match),
-                  ).animate().fadeIn(
-                    delay: (index * 50).ms,
-                    duration: 300.ms,
-                  ).slideX(
-                    begin: 0.2,
-                    end: 0,
-                  );
-                },
+            child: matchesAsync.when(
+              data: (matches) {
+                if (matches.isEmpty) {
+                  return _buildEmptyState(userId);
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () => _refreshMatches(userId),
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(16),
+                    itemCount: matches.length,
+                    itemBuilder: (context, index) {
+                      final match = matches[index];
+                      return MatchHistoryCard(
+                        match: match,
+                        userId: userId,
+                        onTap: () => _navigateToMatchDetail(match.id),
+                      ).animate().fadeIn(
+                        delay: (index * 50).ms,
+                        duration: 300.ms,
+                      ).slideX(
+                        begin: 0.2,
+                        end: 0,
+                      );
+                    },
+                  ),
+                );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stack) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 64,
+                      color: AppColors.error,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Error loading matches',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      error.toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => ref.invalidate(userMatchesProvider(userId)),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -183,14 +210,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
     );
   }
 
-  Widget _buildStatsSummary() {
-    // Calculate stats from filtered matches
-    final wins = _filteredMatches.where((m) => m['result'] == 'win').length;
-    final losses = _filteredMatches.where((m) => m['result'] == 'loss').length;
-    final winRate = _filteredMatches.isEmpty
-        ? 0.0
-        : (wins / _filteredMatches.length * 100);
-
+  Widget _buildStatsSummary(MatchStats stats) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
@@ -199,7 +219,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
         children: [
           _buildStatItem(
             label: 'Matches',
-            value: '${_filteredMatches.length}',
+            value: '${stats.totalMatches}',
             color: AppColors.primaryBlue,
           ),
           Container(
@@ -209,7 +229,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
           ),
           _buildStatItem(
             label: 'Wins',
-            value: '$wins',
+            value: '${stats.wins}',
             color: AppColors.success,
           ),
           Container(
@@ -219,7 +239,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
           ),
           _buildStatItem(
             label: 'Losses',
-            value: '$losses',
+            value: '${stats.losses}',
             color: AppColors.error,
           ),
           Container(
@@ -229,7 +249,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
           ),
           _buildStatItem(
             label: 'Win Rate',
-            value: '${winRate.toStringAsFixed(0)}%',
+            value: '${stats.winRate.toStringAsFixed(0)}%',
             color: AppColors.primaryBlue,
           ),
         ],
@@ -264,7 +284,7 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(String userId) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -382,20 +402,12 @@ class _MatchHistoryScreenState extends ConsumerState<MatchHistoryScreen> {
     );
   }
 
-  Future<void> _refreshMatches() async {
-    // TODO: Implement refresh logic with actual provider
-    await Future.delayed(const Duration(seconds: 1));
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Match history refreshed!'),
-          duration: Duration(seconds: 1),
-        ),
-      );
-    }
+  Future<void> _refreshMatches(String userId) async {
+    ref.invalidate(userMatchesProvider(userId));
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
-  void _navigateToMatchDetail(Map<String, dynamic> match) {
-    context.push('/match-history/${match['id']}', extra: match);
+  void _navigateToMatchDetail(String matchId) {
+    context.push('/match-history/$matchId');
   }
 }
