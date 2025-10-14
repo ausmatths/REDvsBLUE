@@ -145,8 +145,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/match-history/:id',
         name: 'match-detail',
         builder: (context, state) {
-          final matchData = state.extra as Map<String, dynamic>;
-          return MatchDetailScreen(match: matchData);
+          final matchId = state.pathParameters['id']!;
+          return MatchDetailScreen(matchId: matchId);
         },
       ),
 

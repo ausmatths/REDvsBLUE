@@ -194,7 +194,7 @@ final checkProfileExistsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CheckProfileExistsRef = AutoDisposeProviderRef<CheckProfileExists>;
-String _$userProfileHash() => r'7ebd5000211641575067ace58c3bb79abb2cd95d';
+String _$userProfileHash() => r'73ad9e4b02cdbfa11f1a727f56cdc5dedac1d8c7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -370,7 +370,7 @@ class _UserProfileProviderElement
   String get userId => (origin as UserProfileProvider).userId;
 }
 
-String _$userProfileStreamHash() => r'c5ddfa92a57a3a884ce2087e68a53166d41b3186';
+String _$userProfileStreamHash() => r'13ced2aff013eb8c16908b3f19c6fb66d14196d2';
 
 /// Provides a stream of user profile that updates in real-time
 ///
@@ -527,7 +527,7 @@ class _UserProfileStreamProviderElement
 }
 
 String _$userProfileControllerHash() =>
-    r'589ee6960d262936294243701ba43bf674fae832';
+    r'b972eb5e2d58b3f58481cce66cc3da9a14b01a18';
 
 /// State notifier for managing user profile operations
 ///
