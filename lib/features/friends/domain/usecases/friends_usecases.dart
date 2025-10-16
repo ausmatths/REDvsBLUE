@@ -35,6 +35,15 @@ class SendFriendRequest {
     required String userId,
     required String friendId,
   }) async {
+    // Business validation
+    if (userId == friendId) {
+      return Left(ValidationFailure(message: 'Cannot send friend request to yourself'));
+    }
+
+    if (userId.isEmpty || friendId.isEmpty) {
+      return Left(ValidationFailure(message: 'User IDs cannot be empty'));
+    }
+
     return await repository.sendFriendRequest(
       userId: userId,
       friendId: friendId,
@@ -49,6 +58,10 @@ class AcceptFriendRequest {
   AcceptFriendRequest(this.repository);
 
   Future<Either<Failure, FriendEntity>> call(String requestId) async {
+    if (requestId.isEmpty) {
+      return Left(ValidationFailure(message: 'Request ID cannot be empty'));
+    }
+
     return await repository.acceptFriendRequest(requestId);
   }
 }
@@ -60,6 +73,10 @@ class RejectFriendRequest {
   RejectFriendRequest(this.repository);
 
   Future<Either<Failure, void>> call(String requestId) async {
+    if (requestId.isEmpty) {
+      return Left(ValidationFailure(message: 'Request ID cannot be empty'));
+    }
+
     return await repository.rejectFriendRequest(requestId);
   }
 }
@@ -71,6 +88,10 @@ class RemoveFriend {
   RemoveFriend(this.repository);
 
   Future<Either<Failure, void>> call(String friendshipId) async {
+    if (friendshipId.isEmpty) {
+      return Left(ValidationFailure(message: 'Friendship ID cannot be empty'));
+    }
+
     return await repository.removeFriend(friendshipId);
   }
 }
@@ -85,6 +106,15 @@ class BlockUser {
     required String userId,
     required String blockedUserId,
   }) async {
+    // Business validation
+    if (userId == blockedUserId) {
+      return Left(ValidationFailure(message: 'Cannot block yourself'));
+    }
+
+    if (userId.isEmpty || blockedUserId.isEmpty) {
+      return Left(ValidationFailure(message: 'User IDs cannot be empty'));
+    }
+
     return await repository.blockUser(
       userId: userId,
       blockedUserId: blockedUserId,
@@ -102,8 +132,17 @@ class SearchUsers {
     required String query,
     required String currentUserId,
   }) async {
+    // Business validation
+    if (query.trim().isEmpty) {
+      return Left(ValidationFailure(message: 'Search query cannot be empty'));
+    }
+
+    if (query.trim().length < 2) {
+      return Left(ValidationFailure(message: 'Search query must be at least 2 characters'));
+    }
+
     return await repository.searchUsers(
-      query: query,
+      query: query.trim(),
       currentUserId: currentUserId,
     );
   }
@@ -116,6 +155,12 @@ class WatchFriends {
   WatchFriends(this.repository);
 
   Stream<Either<Failure, List<FriendEntity>>> call(String userId) {
+    if (userId.isEmpty) {
+      return Stream.value(
+        Left(ValidationFailure(message: 'User ID cannot be empty')),
+      );
+    }
+
     return repository.watchFriends(userId);
   }
 }

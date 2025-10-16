@@ -146,10 +146,12 @@ class FriendsRepositoryImpl implements FriendsRepository {
   @override
   Stream<Either<Failure, List<FriendEntity>>> watchFriends(String userId) {
     try {
-      return remoteDataSource.watchFriends(userId).map((models) {
-        final entities = models.map((model) => model.toEntity()).toList();
-        return Right<Failure, List<FriendEntity>>(entities);
-      }).handleError((error) {
+      return remoteDataSource.watchFriends(userId).map(
+            (models) {
+          final entities = models.map((model) => model.toEntity()).toList();
+          return Right<Failure, List<FriendEntity>>(entities);
+        },
+      ).handleError((error) {
         if (error is ServerException) {
           return Left<Failure, List<FriendEntity>>(
             ServerFailure(message: error.message),

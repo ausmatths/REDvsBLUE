@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/friend_model.dart';
 
-/// Remote data source for Friends using Firebase Firestore
+/// Remote data source for Friends - handles Firebase operations
 abstract class FriendsRemoteDataSource {
   Future<List<FriendModel>> getFriends(String userId);
   Future<List<FriendModel>> getPendingRequests(String userId);
@@ -24,6 +24,7 @@ abstract class FriendsRemoteDataSource {
   Stream<List<FriendModel>> watchFriends(String userId);
 }
 
+/// Implementation using Firebase Firestore
 class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
   final FirebaseFirestore firestore;
 
@@ -32,19 +33,54 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
   @override
   Future<List<FriendModel>> getFriends(String userId) async {
     try {
-      final querySnapshot = await firestore
+      // Get all friendships where user is either userId or friendId AND status is accepted
+      final userFriendships = await firestore
           .collection('friendships')
           .where('userId', isEqualTo: userId)
           .where('status', isEqualTo: 'accepted')
           .get();
 
+      final friendFriendships = await firestore
+          .collection('friendships')
+          .where('friendId', isEqualTo: userId)
+          .where('status', isEqualTo: 'accepted')
+          .get();
+
       final friends = <FriendModel>[];
 
-      for (var doc in querySnapshot.docs) {
+      // Process user's sent requests that were accepted
+      for (var doc in userFriendships.docs) {
         final data = doc.data();
         final friendId = data['friendId'] as String;
 
-        // Fetch friend's profile to get updated data
+        // Fetch friend's profile from users collection
+        final friendProfile = await firestore
+            .collection('users')
+            .doc(friendId)
+            .get();
+
+        if (friendProfile.exists) {
+          final friendData = friendProfile.data()!;
+          final friendModel = FriendModel.fromFirestore({
+            ...data,
+            'friendName': friendData['displayName'] ?? 'Unknown',
+            'friendEmail': friendData['email'] ?? '',
+            'friendPhotoUrl': friendData['photoUrl'],
+            'friendGmrPoints': friendData['gmrPoints'] ?? 0,
+            'friendMedalLevel': friendData['medalLevel'] ?? 'Bronze',
+            'friendSports': friendData['sports'] ?? [],
+          }, doc.id);
+
+          friends.add(friendModel);
+        }
+      }
+
+      // Process received requests that were accepted
+      for (var doc in friendFriendships.docs) {
+        final data = doc.data();
+        final friendId = data['userId'] as String;
+
+        // Fetch friend's profile
         final friendProfile = await firestore
             .collection('users')
             .doc(friendId)
@@ -133,6 +169,17 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
         throw ValidationException(message: 'Friend request already exists');
       }
 
+      // Check reverse direction
+      final reverseExisting = await firestore
+          .collection('friendships')
+          .where('userId', isEqualTo: friendId)
+          .where('friendId', isEqualTo: userId)
+          .get();
+
+      if (reverseExisting.docs.isNotEmpty) {
+        throw ValidationException(message: 'Friend request already exists');
+      }
+
       // Get friend's profile data
       final friendProfile = await firestore
           .collection('users')
@@ -145,27 +192,30 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
 
       final friendData = friendProfile.data()!;
 
-      final friendRequest = FriendModel(
-        id: '', // Will be set by Firestore
-        userId: userId,
-        friendId: friendId,
-        friendName: friendData['displayName'] ?? 'Unknown',
-        friendPhotoUrl: friendData['photoUrl'],
-        friendEmail: friendData['email'] ?? '',
-        status: 'pending',
-        createdAt: DateTime.now(),
-        friendGmrPoints: friendData['gmrPoints'] ?? 0,
-        friendMedalLevel: friendData['medalLevel'] ?? 'Bronze',
-        friendSports: List<String>.from(friendData['sports'] ?? []),
-      );
+      // Create friendship document
+      final docRef = await firestore.collection('friendships').add({
+        'userId': userId,
+        'friendId': friendId,
+        'status': 'pending',
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
 
-      final docRef = await firestore
-          .collection('friendships')
-          .add(friendRequest.toFirestore());
-
-      return friendRequest.copyWith(id: docRef.id);
+      // Return the created friendship with friend data
+      final createdDoc = await docRef.get();
+      return FriendModel.fromFirestore({
+        ...createdDoc.data()!,
+        'friendName': friendData['displayName'] ?? 'Unknown',
+        'friendEmail': friendData['email'] ?? '',
+        'friendPhotoUrl': friendData['photoUrl'],
+        'friendGmrPoints': friendData['gmrPoints'] ?? 0,
+        'friendMedalLevel': friendData['medalLevel'] ?? 'Bronze',
+        'friendSports': friendData['sports'] ?? [],
+      }, docRef.id);
     } catch (e) {
-      if (e is ServerException) rethrow;
+      if (e is ValidationException || e is NotFoundExceptionCustom) {
+        rethrow;
+      }
       throw ServerException(message: 'Failed to send friend request: ${e.toString()}');
     }
   }
@@ -173,25 +223,44 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
   @override
   Future<FriendModel> acceptFriendRequest(String requestId) async {
     try {
-      await firestore
-          .collection('friendships')
-          .doc(requestId)
-          .update({
-        'status': 'accepted',
-        'acceptedAt': DateTime.now().toIso8601String(),
-      });
-
-      final doc = await firestore
-          .collection('friendships')
-          .doc(requestId)
-          .get();
+      final docRef = firestore.collection('friendships').doc(requestId);
+      final doc = await docRef.get();
 
       if (!doc.exists) {
         throw NotFoundExceptionCustom(message: 'Friend request not found');
       }
 
-      return FriendModel.fromFirestore(doc.data()!, doc.id);
+      // Update status to accepted
+      await docRef.update({
+        'status': 'accepted',
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      final data = doc.data()!;
+      final friendId = data['userId'] as String;
+
+      // Get friend profile
+      final friendProfile = await firestore
+          .collection('users')
+          .doc(friendId)
+          .get();
+
+      final friendData = friendProfile.data()!;
+
+      return FriendModel.fromFirestore({
+        ...data,
+        'status': 'accepted',
+        'friendName': friendData['displayName'] ?? 'Unknown',
+        'friendEmail': friendData['email'] ?? '',
+        'friendPhotoUrl': friendData['photoUrl'],
+        'friendGmrPoints': friendData['gmrPoints'] ?? 0,
+        'friendMedalLevel': friendData['medalLevel'] ?? 'Bronze',
+        'friendSports': friendData['sports'] ?? [],
+      }, requestId);
     } catch (e) {
+      if (e is NotFoundExceptionCustom) {
+        rethrow;
+      }
       throw ServerException(message: 'Failed to accept friend request: ${e.toString()}');
     }
   }
@@ -199,11 +268,22 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
   @override
   Future<void> rejectFriendRequest(String requestId) async {
     try {
-      await firestore
-          .collection('friendships')
-          .doc(requestId)
-          .delete();
+      final docRef = firestore.collection('friendships').doc(requestId);
+      final doc = await docRef.get();
+
+      if (!doc.exists) {
+        throw NotFoundExceptionCustom(message: 'Friend request not found');
+      }
+
+      // Update status to rejected
+      await docRef.update({
+        'status': 'rejected',
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
     } catch (e) {
+      if (e is NotFoundExceptionCustom) {
+        rethrow;
+      }
       throw ServerException(message: 'Failed to reject friend request: ${e.toString()}');
     }
   }
@@ -211,10 +291,7 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
   @override
   Future<void> removeFriend(String friendshipId) async {
     try {
-      await firestore
-          .collection('friendships')
-          .doc(friendshipId)
-          .delete();
+      await firestore.collection('friendships').doc(friendshipId).delete();
     } catch (e) {
       throw ServerException(message: 'Failed to remove friend: ${e.toString()}');
     }
@@ -226,24 +303,33 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
     required String blockedUserId,
   }) async {
     try {
-      // Remove any existing friendship
-      final friendships = await firestore
+      // Find and update any existing friendships
+      final existing = await firestore
           .collection('friendships')
           .where('userId', isEqualTo: userId)
           .where('friendId', isEqualTo: blockedUserId)
           .get();
 
-      for (var doc in friendships.docs) {
-        await doc.reference.delete();
+      for (var doc in existing.docs) {
+        await doc.reference.update({
+          'status': 'blocked',
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
       }
 
-      // Add to blocked users list
-      await firestore
-          .collection('users')
-          .doc(userId)
-          .update({
-        'blockedUsers': FieldValue.arrayUnion([blockedUserId]),
-      });
+      // Check reverse direction
+      final reverseExisting = await firestore
+          .collection('friendships')
+          .where('userId', isEqualTo: blockedUserId)
+          .where('friendId', isEqualTo: userId)
+          .get();
+
+      for (var doc in reverseExisting.docs) {
+        await doc.reference.update({
+          'status': 'blocked',
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+      }
     } catch (e) {
       throw ServerException(message: 'Failed to block user: ${e.toString()}');
     }
@@ -257,33 +343,31 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
     try {
       final queryLower = query.toLowerCase();
 
-      final querySnapshot = await firestore
-          .collection('users')
-          .get();
+      // Search in users collection
+      final snapshot = await firestore.collection('users').get();
 
       final results = <FriendModel>[];
 
-      for (var doc in querySnapshot.docs) {
-        if (doc.id == currentUserId) continue;
+      for (var doc in snapshot.docs) {
+        if (doc.id == currentUserId) continue; // Skip current user
 
         final data = doc.data();
-        final displayName = (data['displayName'] as String? ?? '').toLowerCase();
-        final email = (data['email'] as String? ?? '').toLowerCase();
+        final displayName = (data['displayName'] ?? '').toString().toLowerCase();
+        final email = (data['email'] ?? '').toString().toLowerCase();
 
         if (displayName.contains(queryLower) || email.contains(queryLower)) {
-          results.add(FriendModel(
-            id: doc.id,
-            userId: currentUserId,
-            friendId: doc.id,
-            friendName: data['displayName'] ?? 'Unknown',
-            friendPhotoUrl: data['photoUrl'],
-            friendEmail: data['email'] ?? '',
-            status: 'pending', // Will be checked against existing friendships
-            createdAt: DateTime.now(),
-            friendGmrPoints: data['gmrPoints'] ?? 0,
-            friendMedalLevel: data['medalLevel'] ?? 'Bronze',
-            friendSports: List<String>.from(data['sports'] ?? []),
-          ));
+          results.add(FriendModel.fromFirestore({
+            'userId': currentUserId,
+            'friendId': doc.id,
+            'friendName': data['displayName'] ?? 'Unknown',
+            'friendEmail': data['email'] ?? '',
+            'friendPhotoUrl': data['photoUrl'],
+            'friendGmrPoints': data['gmrPoints'] ?? 0,
+            'friendMedalLevel': data['medalLevel'] ?? 'Bronze',
+            'friendSports': data['sports'] ?? [],
+            'status': 'none',
+            'createdAt': Timestamp.now(),
+          }, 'search_${doc.id}'));
         }
       }
 
@@ -295,38 +379,42 @@ class FriendsRemoteDataSourceImpl implements FriendsRemoteDataSource {
 
   @override
   Stream<List<FriendModel>> watchFriends(String userId) {
-    return firestore
-        .collection('friendships')
-        .where('userId', isEqualTo: userId)
-        .where('status', isEqualTo: 'accepted')
-        .snapshots()
-        .asyncMap((snapshot) async {
-      final friends = <FriendModel>[];
+    try {
+      return firestore
+          .collection('friendships')
+          .where('userId', isEqualTo: userId)
+          .where('status', isEqualTo: 'accepted')
+          .snapshots()
+          .asyncMap((snapshot) async {
+        final friends = <FriendModel>[];
 
-      for (var doc in snapshot.docs) {
-        final data = doc.data();
-        final friendId = data['friendId'] as String;
+        for (var doc in snapshot.docs) {
+          final data = doc.data();
+          final friendId = data['friendId'] as String;
 
-        final friendProfile = await firestore
-            .collection('users')
-            .doc(friendId)
-            .get();
+          final friendProfile = await firestore
+              .collection('users')
+              .doc(friendId)
+              .get();
 
-        if (friendProfile.exists) {
-          final friendData = friendProfile.data()!;
-          friends.add(FriendModel.fromFirestore({
-            ...data,
-            'friendName': friendData['displayName'] ?? 'Unknown',
-            'friendEmail': friendData['email'] ?? '',
-            'friendPhotoUrl': friendData['photoUrl'],
-            'friendGmrPoints': friendData['gmrPoints'] ?? 0,
-            'friendMedalLevel': friendData['medalLevel'] ?? 'Bronze',
-            'friendSports': friendData['sports'] ?? [],
-          }, doc.id));
+          if (friendProfile.exists) {
+            final friendData = friendProfile.data()!;
+            friends.add(FriendModel.fromFirestore({
+              ...data,
+              'friendName': friendData['displayName'] ?? 'Unknown',
+              'friendEmail': friendData['email'] ?? '',
+              'friendPhotoUrl': friendData['photoUrl'],
+              'friendGmrPoints': friendData['gmrPoints'] ?? 0,
+              'friendMedalLevel': friendData['medalLevel'] ?? 'Bronze',
+              'friendSports': friendData['sports'] ?? [],
+            }, doc.id));
+          }
         }
-      }
 
-      return friends;
-    });
+        return friends;
+      });
+    } catch (e) {
+      throw ServerException(message: 'Failed to watch friends: ${e.toString()}');
+    }
   }
 }

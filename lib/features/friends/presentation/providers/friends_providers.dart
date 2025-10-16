@@ -6,6 +6,7 @@ import '../../data/repositories/friends_repository_impl.dart';
 import '../../domain/entities/friend_entity.dart';
 import '../../domain/repositories/friends_repository.dart';
 import '../../domain/usecases/friends_usecases.dart';
+import '../../../auth/presentation/providers/auth_providers_with_profile.dart';
 
 part 'friends_providers.g.dart';
 
