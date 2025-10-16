@@ -327,9 +327,9 @@
     },
     {
       "name": "fl_chart",
-      "rootUri": "file:///C:/Users/ausmatths/AppData/Local/Pub/Cache/hosted/pub.dev/fl_chart-0.64.0",
+      "rootUri": "file:///C:/Users/ausmatths/AppData/Local/Pub/Cache/hosted/pub.dev/fl_chart-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.6"
     },
     {
       "name": "flutter",

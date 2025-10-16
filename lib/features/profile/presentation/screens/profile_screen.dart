@@ -579,7 +579,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildMenuItem(
                         icon: Icons.bar_chart,
                         title: 'Statistics',
-                        onTap: () {},
+                        onTap: () {
+                          // Navigate to statistics screen
+                          context.push('/statistics');
+                        },
                       ),
                       _buildMenuItem(
                         icon: Icons.people,
