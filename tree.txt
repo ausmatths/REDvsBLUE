@@ -1,11 +1,33 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
 PS H:\Red vs Blue\REDvsBLUE> tree
 Folder PATH listing for volume AI_Projects
 Volume serial number is 9ADD-F017
 H:.
 ├───.dart_tool
+│   ├───build
+│   │   ├───entrypoint
+│   │   ├───fcd1995bc647fb959e82ea360c6c2c9a
+│   │   └───generated
+│   │       └───redvsblue
+│   │           └───lib
+│   │               └───features
+│   │                   ├───friends
+│   │                   │   └───presentation
+│   │                   │       └───providers
+│   │                   └───profile
+│   │                       └───presentation
+│   │                           └───providers
+│   ├───build_resolvers
 │   ├───dartpad
-│   └───flutter_build
-│       └───2a5c9d3cc489581ebab211c4495d9ed9
+│   ├───flutter_build
+│   │   └───2a5c9d3cc489581ebab211c4495d9ed9
+│   └───pub
+│       └───bin
+│           └───build_runner
 ├───.idea
 │   ├───caches
 │   ├───libraries
@@ -2218,6 +2240,19 @@ H:.
 │   │   ├───chat
 │   │   │   └───presentation
 │   │   │       └───screens
+│   │   ├───friends
+│   │   │   ├───data
+│   │   │   │   ├───datasources
+│   │   │   │   ├───models
+│   │   │   │   └───repositories
+│   │   │   ├───domain
+│   │   │   │   ├───entities
+│   │   │   │   ├───repositories
+│   │   │   │   └───usecases
+│   │   │   └───presentation
+│   │   │       ├───providers
+│   │   │       ├───screens
+│   │   │       └───widgets
 │   │   ├───home
 │   │   │   └───presentation
 │   │   │       └───screens
@@ -2257,3 +2292,4 @@ H:.
 │       └───widgets
 └───web
     └───icons
+PS H:\Red vs Blue\REDvsBLUE> 
