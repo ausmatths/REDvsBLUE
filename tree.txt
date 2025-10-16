@@ -1173,6 +1173,17 @@ H:.
 │   │   │   └───logs
 │   │   └───tmp
 │   │       └───compileDebugJavaWithJavac
+│   ├───flutter_assets
+│   │   ├───assets
+│   │   │   ├───animations
+│   │   │   ├───fonts
+│   │   │   ├───icons
+│   │   │   └───images
+│   │   ├───fonts
+│   │   ├───packages
+│   │   │   └───cupertino_icons
+│   │   │       └───assets
+│   │   └───shaders
 │   ├───flutter_plugin_android_lifecycle
 │   │   ├───.transforms
 │   │   │   └───2333a82cfd0cf3d90ee52f8f7f838be3
