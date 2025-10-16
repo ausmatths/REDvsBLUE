@@ -1,0 +1,2248 @@
+PS H:\Red vs Blue\REDvsBLUE> tree
+Folder PATH listing for volume AI_Projects
+Volume serial number is 9ADD-F017
+H:.
+├───.dart_tool
+│   ├───dartpad
+│   └───flutter_build
+│       └───2a5c9d3cc489581ebab211c4495d9ed9
+├───.idea
+│   ├───caches
+│   ├───libraries
+│   └───runConfigurations
+├───android
+│   ├───.gradle
+│   │   ├───8.12
+│   │   │   ├───checksums
+│   │   │   ├───executionHistory
+│   │   │   ├───expanded
+│   │   │   ├───fileChanges
+│   │   │   ├───fileHashes
+│   │   │   └───vcsMetadata
+│   │   ├───buildOutputCleanup
+│   │   ├───kotlin
+│   │   │   └───errors
+│   │   ├───noVersion
+│   │   └───vcs-1
+│   ├───.kotlin
+│   │   ├───errors
+│   │   └───sessions
+│   ├───app
+│   │   └───src
+│   │       ├───debug
+│   │       ├───main
+│   │       │   ├───java
+│   │       │   │   └───io
+│   │       │   │       └───flutter
+│   │       │   │           └───plugins
+│   │       │   ├───kotlin
+│   │       │   │   └───com
+│   │       │   │       └───rvb
+│   │       │   │           └───redvsblue
+│   │       │   └───res
+│   │       │       ├───drawable
+│   │       │       ├───drawable-v21
+│   │       │       ├───mipmap-hdpi
+│   │       │       ├───mipmap-mdpi
+│   │       │       ├───mipmap-xhdpi
+│   │       │       ├───mipmap-xxhdpi
+│   │       │       ├───mipmap-xxxhdpi
+│   │       │       ├───values
+│   │       │       └───values-night
+│   │       └───profile
+│   └───gradle
+│       └───wrapper
+├───assets
+│   ├───animations
+│   ├───fonts
+│   ├───icons
+│   └───images
+├───backup
+├───build
+│   ├───.cxx
+│   │   └───debug
+│   │       └───6n196j5j
+│   │           ├───arm64-v8a
+│   │           │   ├───.cmake
+│   │           │   │   └───api
+│   │           │   │       └───v1
+│   │           │   │           ├───query
+│   │           │   │           │   └───client-agp
+│   │           │   │           └───reply
+│   │           │   └───CMakeFiles
+│   │           │       ├───3.22.1-g37088a8-dirty
+│   │           │       │   ├───CompilerIdC
+│   │           │       │   │   └───tmp
+│   │           │       │   └───CompilerIdCXX
+│   │           │       │       └───tmp
+│   │           │       └───CMakeTmp
+│   │           ├───armeabi-v7a
+│   │           │   ├───.cmake
+│   │           │   │   └───api
+│   │           │   │       └───v1
+│   │           │   │           ├───query
+│   │           │   │           │   └───client-agp
+│   │           │   │           └───reply
+│   │           │   └───CMakeFiles
+│   │           │       ├───3.22.1-g37088a8-dirty
+│   │           │       │   ├───CompilerIdC
+│   │           │       │   │   └───tmp
+│   │           │       │   └───CompilerIdCXX
+│   │           │       │       └───tmp
+│   │           │       └───CMakeTmp
+│   │           └───x86_64
+│   │               ├───.cmake
+│   │               │   └───api
+│   │               │       └───v1
+│   │               │           ├───query
+│   │               │           │   └───client-agp
+│   │               │           └───reply
+│   │               └───CMakeFiles
+│   │                   ├───3.22.1-g37088a8-dirty
+│   │                   │   ├───CompilerIdC
+│   │                   │   │   └───tmp
+│   │                   │   └───CompilerIdCXX
+│   │                   │       └───tmp
+│   │                   └───CMakeTmp
+│   ├───app
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───google-services
+│   │   │       │   └───debug
+│   │   │       │       └───values
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aar_metadata_check
+│   │   │   │   └───debug
+│   │   │   │       └───checkDebugAarMetadata
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───apk_ide_redirect_file
+│   │   │   │   └───debug
+│   │   │   │       └───createDebugApkListingFileRedirect
+│   │   │   ├───app_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAppMetadata
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   │           └───flutter_assets
+│   │   │   │               ├───assets
+│   │   │   │               │   ├───animations
+│   │   │   │               │   ├───fonts
+│   │   │   │               │   ├───icons
+│   │   │   │               │   └───images
+│   │   │   │               ├───fonts
+│   │   │   │               ├───packages
+│   │   │   │               │   └───cupertino_icons
+│   │   │   │               │       └───assets
+│   │   │   │               └───shaders
+│   │   │   ├───compatible_screen_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───createDebugCompatibleScreenManifests
+│   │   │   ├───compile_and_runtime_not_namespaced_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugResources
+│   │   │   ├───compressed_assets
+│   │   │   │   └───debug
+│   │   │   │       └───compressDebugAssets
+│   │   │   │           └───out
+│   │   │   │               └───assets
+│   │   │   │                   └───flutter_assets
+│   │   │   │                       ├───assets
+│   │   │   │                       │   ├───animations
+│   │   │   │                       │   ├───fonts
+│   │   │   │                       │   ├───icons
+│   │   │   │                       │   └───images
+│   │   │   │                       ├───fonts
+│   │   │   │                       ├───packages
+│   │   │   │                       │   └───cupertino_icons
+│   │   │   │                       │       └───assets
+│   │   │   │                       └───shaders
+│   │   │   ├───cxx
+│   │   │   │   └───debug
+│   │   │   │       └───6n196j5j
+│   │   │   │           ├───logs
+│   │   │   │           │   ├───arm64-v8a
+│   │   │   │           │   ├───armeabi-v7a
+│   │   │   │           │   └───x86_64
+│   │   │   │           └───obj
+│   │   │   │               ├───arm64-v8a
+│   │   │   │               ├───armeabi-v7a
+│   │   │   │               └───x86_64
+│   │   │   ├───data_binding_layout_info_type_merge
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugResources
+│   │   │   │           └───out
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───desugar_graph
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   │               ├───currentProject
+│   │   │   │               │   ├───dirs_bucket_0
+│   │   │   │               │   ├───dirs_bucket_1
+│   │   │   │               │   ├───dirs_bucket_10
+│   │   │   │               │   ├───dirs_bucket_11
+│   │   │   │               │   ├───dirs_bucket_12
+│   │   │   │               │   ├───dirs_bucket_13
+│   │   │   │               │   ├───dirs_bucket_14
+│   │   │   │               │   ├───dirs_bucket_15
+│   │   │   │               │   ├───dirs_bucket_16
+│   │   │   │               │   ├───dirs_bucket_17
+│   │   │   │               │   ├───dirs_bucket_18
+│   │   │   │               │   ├───dirs_bucket_19
+│   │   │   │               │   ├───dirs_bucket_2
+│   │   │   │               │   ├───dirs_bucket_3
+│   │   │   │               │   ├───dirs_bucket_4
+│   │   │   │               │   ├───dirs_bucket_5
+│   │   │   │               │   ├───dirs_bucket_6
+│   │   │   │               │   ├───dirs_bucket_7
+│   │   │   │               │   ├───dirs_bucket_8
+│   │   │   │               │   ├───dirs_bucket_9
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_0
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_1
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_10
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_11
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_12
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_13
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_14
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_15
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_16
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_17
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_18
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_19
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_2
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_3
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_4
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_5
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_6
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_7
+│   │   │   │               │   ├───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_8
+│   │   │   │               │   └───jar_eb520ae780a464a814322edb3978452773bb9905335587241feebfea1a63e842_bucket_9
+│   │   │   │               ├───externalLibs
+│   │   │   │               ├───mixedScopes
+│   │   │   │               └───otherProjects
+│   │   │   ├───dex
+│   │   │   │   └───debug
+│   │   │   │       ├───mergeExtDexDebug
+│   │   │   │       ├───mergeLibDexDebug
+│   │   │   │       │   ├───0
+│   │   │   │       │   ├───1
+│   │   │   │       │   ├───10
+│   │   │   │       │   ├───11
+│   │   │   │       │   ├───12
+│   │   │   │       │   ├───13
+│   │   │   │       │   ├───14
+│   │   │   │       │   ├───15
+│   │   │   │       │   ├───2
+│   │   │   │       │   ├───3
+│   │   │   │       │   ├───4
+│   │   │   │       │   ├───5
+│   │   │   │       │   ├───6
+│   │   │   │       │   ├───7
+│   │   │   │       │   ├───8
+│   │   │   │       │   └───9
+│   │   │   │       └───mergeProjectDexDebug
+│   │   │   │           ├───0
+│   │   │   │           ├───1
+│   │   │   │           ├───10
+│   │   │   │           ├───11
+│   │   │   │           ├───12
+│   │   │   │           ├───13
+│   │   │   │           ├───14
+│   │   │   │           ├───15
+│   │   │   │           ├───2
+│   │   │   │           ├───3
+│   │   │   │           ├───4
+│   │   │   │           ├───5
+│   │   │   │           ├───6
+│   │   │   │           ├───7
+│   │   │   │           ├───8
+│   │   │   │           └───9
+│   │   │   ├───dex_archive_input_jar_hashes
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   ├───dex_number_of_buckets_file
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   ├───duplicate_classes_check
+│   │   │   │   └───debug
+│   │   │   │       └───checkDebugDuplicateClasses
+│   │   │   ├───external_file_lib_dex_archives
+│   │   │   │   └───debug
+│   │   │   │       └───desugarDebugFileDependencies
+│   │   │   ├───external_libs_dex_archive
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   ├───external_libs_dex_archive_with_artifact_transforms
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   ├───flutter
+│   │   │   │   └───debug
+│   │   │   │       └───flutter_assets
+│   │   │   │           ├───assets
+│   │   │   │           │   ├───animations
+│   │   │   │           │   ├───fonts
+│   │   │   │           │   ├───icons
+│   │   │   │           │   └───images
+│   │   │   │           ├───fonts
+│   │   │   │           ├───packages
+│   │   │   │           │   └───cupertino_icons
+│   │   │   │           │       └───assets
+│   │   │   │           └───shaders
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   ├───mergeDebugResources
+│   │   │   │   │   │   ├───merged.dir
+│   │   │   │   │   │   │   ├───values
+│   │   │   │   │   │   │   ├───values-af
+│   │   │   │   │   │   │   ├───values-am
+│   │   │   │   │   │   │   ├───values-ar
+│   │   │   │   │   │   │   ├───values-as
+│   │   │   │   │   │   │   ├───values-az
+│   │   │   │   │   │   │   ├───values-b+sr+Latn
+│   │   │   │   │   │   │   ├───values-be
+│   │   │   │   │   │   │   ├───values-bg
+│   │   │   │   │   │   │   ├───values-bn
+│   │   │   │   │   │   │   ├───values-bs
+│   │   │   │   │   │   │   ├───values-ca
+│   │   │   │   │   │   │   ├───values-cs
+│   │   │   │   │   │   │   ├───values-da
+│   │   │   │   │   │   │   ├───values-de
+│   │   │   │   │   │   │   ├───values-el
+│   │   │   │   │   │   │   ├───values-en-rAU
+│   │   │   │   │   │   │   ├───values-en-rCA
+│   │   │   │   │   │   │   ├───values-en-rGB
+│   │   │   │   │   │   │   ├───values-en-rIN
+│   │   │   │   │   │   │   ├───values-en-rXC
+│   │   │   │   │   │   │   ├───values-es
+│   │   │   │   │   │   │   ├───values-es-rUS
+│   │   │   │   │   │   │   ├───values-et
+│   │   │   │   │   │   │   ├───values-eu
+│   │   │   │   │   │   │   ├───values-fa
+│   │   │   │   │   │   │   ├───values-fi
+│   │   │   │   │   │   │   ├───values-fr
+│   │   │   │   │   │   │   ├───values-fr-rCA
+│   │   │   │   │   │   │   ├───values-gl
+│   │   │   │   │   │   │   ├───values-gu
+│   │   │   │   │   │   │   ├───values-h720dp-v13
+│   │   │   │   │   │   │   ├───values-hdpi-v4
+│   │   │   │   │   │   │   ├───values-hi
+│   │   │   │   │   │   │   ├───values-hr
+│   │   │   │   │   │   │   ├───values-hu
+│   │   │   │   │   │   │   ├───values-hy
+│   │   │   │   │   │   │   ├───values-in
+│   │   │   │   │   │   │   ├───values-is
+│   │   │   │   │   │   │   ├───values-it
+│   │   │   │   │   │   │   ├───values-iw
+│   │   │   │   │   │   │   ├───values-ja
+│   │   │   │   │   │   │   ├───values-ka
+│   │   │   │   │   │   │   ├───values-kk
+│   │   │   │   │   │   │   ├───values-km
+│   │   │   │   │   │   │   ├───values-kn
+│   │   │   │   │   │   │   ├───values-ko
+│   │   │   │   │   │   │   ├───values-ky
+│   │   │   │   │   │   │   ├───values-land
+│   │   │   │   │   │   │   ├───values-large-v4
+│   │   │   │   │   │   │   ├───values-ldltr-v21
+│   │   │   │   │   │   │   ├───values-lo
+│   │   │   │   │   │   │   ├───values-lt
+│   │   │   │   │   │   │   ├───values-lv
+│   │   │   │   │   │   │   ├───values-mk
+│   │   │   │   │   │   │   ├───values-ml
+│   │   │   │   │   │   │   ├───values-mn
+│   │   │   │   │   │   │   ├───values-mr
+│   │   │   │   │   │   │   ├───values-ms
+│   │   │   │   │   │   │   ├───values-my
+│   │   │   │   │   │   │   ├───values-nb
+│   │   │   │   │   │   │   ├───values-ne
+│   │   │   │   │   │   │   ├───values-night-v8
+│   │   │   │   │   │   │   ├───values-nl
+│   │   │   │   │   │   │   ├───values-or
+│   │   │   │   │   │   │   ├───values-pa
+│   │   │   │   │   │   │   ├───values-pl
+│   │   │   │   │   │   │   ├───values-port
+│   │   │   │   │   │   │   ├───values-pt
+│   │   │   │   │   │   │   ├───values-pt-rBR
+│   │   │   │   │   │   │   ├───values-pt-rPT
+│   │   │   │   │   │   │   ├───values-ro
+│   │   │   │   │   │   │   ├───values-ru
+│   │   │   │   │   │   │   ├───values-si
+│   │   │   │   │   │   │   ├───values-sk
+│   │   │   │   │   │   │   ├───values-sl
+│   │   │   │   │   │   │   ├───values-sq
+│   │   │   │   │   │   │   ├───values-sr
+│   │   │   │   │   │   │   ├───values-sv
+│   │   │   │   │   │   │   ├───values-sw
+│   │   │   │   │   │   │   ├───values-sw360dp-v13
+│   │   │   │   │   │   │   ├───values-sw600dp-v13
+│   │   │   │   │   │   │   ├───values-ta
+│   │   │   │   │   │   │   ├───values-te
+│   │   │   │   │   │   │   ├───values-th
+│   │   │   │   │   │   │   ├───values-tl
+│   │   │   │   │   │   │   ├───values-tr
+│   │   │   │   │   │   │   ├───values-uk
+│   │   │   │   │   │   │   ├───values-ur
+│   │   │   │   │   │   │   ├───values-uz
+│   │   │   │   │   │   │   ├───values-v16
+│   │   │   │   │   │   │   ├───values-v17
+│   │   │   │   │   │   │   ├───values-v18
+│   │   │   │   │   │   │   ├───values-v21
+│   │   │   │   │   │   │   ├───values-v22
+│   │   │   │   │   │   │   ├───values-v23
+│   │   │   │   │   │   │   ├───values-v24
+│   │   │   │   │   │   │   ├───values-v25
+│   │   │   │   │   │   │   ├───values-v26
+│   │   │   │   │   │   │   ├───values-v28
+│   │   │   │   │   │   │   ├───values-vi
+│   │   │   │   │   │   │   ├───values-watch-v20
+│   │   │   │   │   │   │   ├───values-watch-v21
+│   │   │   │   │   │   │   ├───values-xlarge-v4
+│   │   │   │   │   │   │   ├───values-zh-rCN
+│   │   │   │   │   │   │   ├───values-zh-rHK
+│   │   │   │   │   │   │   ├───values-zh-rTW
+│   │   │   │   │   │   │   └───values-zu
+│   │   │   │   │   │   └───stripped.dir
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       │   ├───values
+│   │   │   │   │       │   └───values-night-v8
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   ├───mergeDebugShaders
+│   │   │   │   └───packageDebug
+│   │   │   │       └───tmp
+│   │   │   │           └───debug
+│   │   │   │               └───zip-cache
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   ├───java_res
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugJavaRes
+│   │   │   │           └───out
+│   │   │   │               ├───com
+│   │   │   │               │   └───rvb
+│   │   │   │               │       └───redvsblue
+│   │   │   │               └───META-INF
+│   │   │   ├───linked_resources_binary_format
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugResources
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugMainManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugMainManifest
+│   │   │   ├───merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_native_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugNativeLibs
+│   │   │   │           └───out
+│   │   │   │               └───lib
+│   │   │   │                   ├───arm64-v8a
+│   │   │   │                   ├───armeabi-v7a
+│   │   │   │                   ├───x86
+│   │   │   │                   └───x86_64
+│   │   │   ├───merged_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugResources
+│   │   │   ├───merged_res_blame_folder
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugResources
+│   │   │   │           └───out
+│   │   │   │               ├───multi-v2
+│   │   │   │               └───single
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───merged_test_only_native_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugNativeLibs
+│   │   │   │           └───out
+│   │   │   ├───mixed_scope_dex_archive
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifestForPackage
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           ├───drawable-v21
+│   │   │   │           ├───mipmap-hdpi-v4
+│   │   │   │           ├───mipmap-mdpi-v4
+│   │   │   │           ├───mipmap-xhdpi-v4
+│   │   │   │           ├───mipmap-xxhdpi-v4
+│   │   │   │           ├───mipmap-xxxhdpi-v4
+│   │   │   │           ├───values
+│   │   │   │           └───values-night-v8
+│   │   │   ├───project_dex_archive
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   │               ├───com
+│   │   │   │               │   └───rvb
+│   │   │   │               │       └───redvsblue
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   ├───runtime_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugResources
+│   │   │   ├───signing_config_versions
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugSigningConfigVersions
+│   │   │   ├───source_set_path_map
+│   │   │   │   └───debug
+│   │   │   │       └───mapDebugSourceSetPaths
+│   │   │   ├───stable_resource_ids_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugResources
+│   │   │   ├───stripped_native_libs
+│   │   │   │   └───debug
+│   │   │   │       └───stripDebugDebugSymbols
+│   │   │   │           └───out
+│   │   │   │               └───lib
+│   │   │   │                   ├───arm64-v8a
+│   │   │   │                   ├───armeabi-v7a
+│   │   │   │                   ├───x86
+│   │   │   │                   └───x86_64
+│   │   │   ├───sub_project_dex_archive
+│   │   │   │   └───debug
+│   │   │   │       └───dexBuilderDebug
+│   │   │   │           └───out
+│   │   │   ├───symbol_list_with_package_name
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugResources
+│   │   │   └───validate_signing_config
+│   │   │       └───debug
+│   │   │           └───validateSigningDebug
+│   │   ├───kotlin
+│   │   │   └───compileDebugKotlin
+│   │   │       ├───cacheable
+│   │   │       │   └───caches-jvm
+│   │   │       │       ├───inputs
+│   │   │       │       ├───jvm
+│   │   │       │       │   └───kotlin
+│   │   │       │       └───lookups
+│   │   │       ├───classpath-snapshot
+│   │   │       └───local-state
+│   │   ├───outputs
+│   │   │   ├───apk
+│   │   │   │   └───debug
+│   │   │   ├───flutter-apk
+│   │   │   └───logs
+│   │   └───tmp
+│   │       ├───compileDebugJavaWithJavac
+│   │       ├───kotlin-classes
+│   │       │   └───debug
+│   │       │       ├───com
+│   │       │       │   └───rvb
+│   │       │       │       └───redvsblue
+│   │       │       └───META-INF
+│   │       └───packJniLibsflutterBuildDebug
+│   ├───cloud_firestore
+│   │   ├───.transforms
+│   │   │   └───eaa9881f14cf499d7f7c0ca5ab47d459
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───firestore
+│   │   │                                   ├───streamhandler
+│   │   │                                   └───utils
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   ├───res
+│   │   │   │   ├───pngs
+│   │   │   │   │   └───debug
+│   │   │   │   └───resValues
+│   │   │   │       └───debug
+│   │   │   └───source
+│   │   │       └───buildConfig
+│   │   │           └───debug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───firestore
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───firebase
+│   │   │   │                               └───firestore
+│   │   │   │                                   ├───streamhandler
+│   │   │   │                                   └───utils
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───firebase
+│   │   │   │                           └───firestore
+│   │   │   │                               ├───streamhandler
+│   │   │   │                               └───utils
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───e9eb210f405ff3fe77fd9a487af36f55
+│   ├───firebase_auth
+│   │   ├───.transforms
+│   │   │   └───8cc1053de532641b8844ed204f51802f
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───auth
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   ├───res
+│   │   │   │   ├───pngs
+│   │   │   │   │   └───debug
+│   │   │   │   └───resValues
+│   │   │   │       └───debug
+│   │   │   └───source
+│   │   │       └───buildConfig
+│   │   │           └───debug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───auth
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───firebase
+│   │   │   │                               └───auth
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───firebase
+│   │   │   │                           └───auth
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───firebase_core
+│   │   ├───.transforms
+│   │   │   └───c8d315dbfed07b46b9a782f1dea372b0
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───core
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   ├───res
+│   │   │   │   ├───pngs
+│   │   │   │   │   └───debug
+│   │   │   │   └───resValues
+│   │   │   │       └───debug
+│   │   │   └───source
+│   │   │       └───buildConfig
+│   │   │           └───debug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───core
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───firebase
+│   │   │   │                               └───core
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───firebase
+│   │   │   │                           └───core
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───firebase_storage
+│   │   ├───.transforms
+│   │   │   └───85de9772bdd7f87b2abfcc3468a566d4
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───storage
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   ├───res
+│   │   │   │   ├───pngs
+│   │   │   │   │   └───debug
+│   │   │   │   └───resValues
+│   │   │   │       └───debug
+│   │   │   └───source
+│   │   │       └───buildConfig
+│   │   │           └───debug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───firebase
+│   │   │                               └───storage
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───firebase
+│   │   │   │                               └───storage
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───firebase
+│   │   │   │                           └───storage
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───flutter_plugin_android_lifecycle
+│   │   ├───.transforms
+│   │   │   └───2333a82cfd0cf3d90ee52f8f7f838be3
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       ├───embedding
+│   │   │                       │   └───engine
+│   │   │                       │       └───plugins
+│   │   │                       │           └───lifecycle
+│   │   │                       └───plugins
+│   │   │                           └───flutter_plugin_android_lifecycle
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       ├───embedding
+│   │   │   │                       │   └───engine
+│   │   │   │                       │       └───plugins
+│   │   │   │                       │           └───lifecycle
+│   │   │   │                       └───plugins
+│   │   │   │                           └───flutter_plugin_android_lifecycle
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_consumer_proguard_file
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugConsumerProguardFiles
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   ├───embedding
+│   │   │   │                   │   └───engine
+│   │   │   │                   │       └───plugins
+│   │   │   │                   │           └───lifecycle
+│   │   │   │                   └───plugins
+│   │   │   │                       └───flutter_plugin_android_lifecycle
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───geolocator_android
+│   │   ├───.transforms
+│   │   │   └───6f7aa9d7d6905db3d26e45d8c2b6f83d
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───com
+│   │   │                   └───baseflow
+│   │   │                       └───geolocator
+│   │   │                           ├───errors
+│   │   │                           ├───location
+│   │   │                           ├───permission
+│   │   │                           └───utils
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───com
+│   │   │   │                   └───baseflow
+│   │   │   │                       └───geolocator
+│   │   │   │                           ├───errors
+│   │   │   │                           ├───location
+│   │   │   │                           ├───permission
+│   │   │   │                           └───utils
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───com
+│   │   │   │               └───baseflow
+│   │   │   │                   └───geolocator
+│   │   │   │                       ├───errors
+│   │   │   │                       ├───location
+│   │   │   │                       ├───permission
+│   │   │   │                       └───utils
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───google_sign_in_android
+│   │   ├───.transforms
+│   │   │   └───5f4dd87e7b0daf52fa9bc6dc0f50bc8e
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───googlesignin
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───googlesignin
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───googlesignin
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───image_picker_android
+│   │   ├───.transforms
+│   │   │   └───aeba6d6320df5e9f19dff04fb93c3520
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───imagepicker
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───imagepicker
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───xml
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───imagepicker
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───native_assets
+│   │   └───android
+│   ├───path_provider_android
+│   │   ├───.transforms
+│   │   │   └───6e81ccd7d733aae532921f23fdd9a02f
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───pathprovider
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───pathprovider
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           └───io
+│   │   │   │               └───flutter
+│   │   │   │                   └───plugins
+│   │   │   │                       └───pathprovider
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       └───compileDebugJavaWithJavac
+│   ├───reports
+│   │   └───problems
+│   ├───shared_preferences_android
+│   │   ├───.transforms
+│   │   │   └───0727b4f77369b380952cba9b066af9d5
+│   │   │       └───transformed
+│   │   │           └───bundleLibRuntimeToDirDebug
+│   │   │               └───io
+│   │   │                   └───flutter
+│   │   │                       └───plugins
+│   │   │                           └───sharedpreferences
+│   │   ├───generated
+│   │   │   ├───ap_generated_sources
+│   │   │   │   └───debug
+│   │   │   │       └───out
+│   │   │   └───res
+│   │   │       ├───pngs
+│   │   │       │   └───debug
+│   │   │       └───resValues
+│   │   │           └───debug
+│   │   ├───intermediates
+│   │   │   ├───aapt_friendly_merged_manifests
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   │           └───aapt
+│   │   │   ├───aar_libs_directory
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   │           └───libs
+│   │   │   ├───aar_main_jar
+│   │   │   │   └───debug
+│   │   │   │       └───syncDebugLibJars
+│   │   │   ├───aar_metadata
+│   │   │   │   └───debug
+│   │   │   │       └───writeDebugAarMetadata
+│   │   │   ├───annotations_typedef_file
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotations_zip
+│   │   │   │   └───debug
+│   │   │   │       └───extractDebugAnnotations
+│   │   │   ├───annotation_processor_list
+│   │   │   │   └───debug
+│   │   │   │       └───javaPreCompileDebug
+│   │   │   ├───assets
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugAssets
+│   │   │   ├───compiled_local_resources
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugLibraryResources
+│   │   │   │           └───out
+│   │   │   ├───compile_library_classes_jar
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibCompileToJarDebug
+│   │   │   ├───compile_r_class_jar
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───compile_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugRFile
+│   │   │   ├───data_binding_layout_info_type_package
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   │           └───out
+│   │   │   ├───incremental
+│   │   │   │   ├───debug
+│   │   │   │   │   └───packageDebugResources
+│   │   │   │   │       ├───merged.dir
+│   │   │   │   │       └───stripped.dir
+│   │   │   │   ├───debug-mergeJavaRes
+│   │   │   │   │   └───zip-cache
+│   │   │   │   ├───mergeDebugAssets
+│   │   │   │   ├───mergeDebugJniLibFolders
+│   │   │   │   └───mergeDebugShaders
+│   │   │   ├───javac
+│   │   │   │   └───debug
+│   │   │   │       └───compileDebugJavaWithJavac
+│   │   │   │           └───classes
+│   │   │   │               └───io
+│   │   │   │                   └───flutter
+│   │   │   │                       └───plugins
+│   │   │   │                           └───sharedpreferences
+│   │   │   ├───java_res
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugJavaRes
+│   │   │   │           └───out
+│   │   │   │               ├───io
+│   │   │   │               │   └───flutter
+│   │   │   │               │       └───plugins
+│   │   │   │               │           └───sharedpreferences
+│   │   │   │               └───META-INF
+│   │   │   ├───library_and_local_jars_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectAndLocalJars
+│   │   │   │           └───jni
+│   │   │   ├───library_jni
+│   │   │   │   └───debug
+│   │   │   │       └───copyDebugJniLibsProjectOnly
+│   │   │   │           └───jni
+│   │   │   ├───local_only_symbol_list
+│   │   │   │   └───debug
+│   │   │   │       └───parseDebugLocalResources
+│   │   │   ├───manifest_merge_blame_file
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_java_res
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJavaResource
+│   │   │   ├───merged_jni_libs
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugJniLibFolders
+│   │   │   │           └───out
+│   │   │   ├───merged_manifest
+│   │   │   │   └───debug
+│   │   │   │       └───processDebugManifest
+│   │   │   ├───merged_shaders
+│   │   │   │   └───debug
+│   │   │   │       └───mergeDebugShaders
+│   │   │   │           └───out
+│   │   │   ├───navigation_json
+│   │   │   │   └───debug
+│   │   │   │       └───extractDeepLinksDebug
+│   │   │   ├───nested_resources_validation_report
+│   │   │   │   └───debug
+│   │   │   │       └───generateDebugResources
+│   │   │   ├───packaged_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───public_res
+│   │   │   │   └───debug
+│   │   │   │       └───packageDebugResources
+│   │   │   ├───runtime_library_classes_dir
+│   │   │   │   └───debug
+│   │   │   │       └───bundleLibRuntimeToDirDebug
+│   │   │   │           ├───io
+│   │   │   │           │   └───flutter
+│   │   │   │           │       └───plugins
+│   │   │   │           │           └───sharedpreferences
+│   │   │   │           └───META-INF
+│   │   │   └───symbol_list_with_package_name
+│   │   │       └───debug
+│   │   │           └───generateDebugRFile
+│   │   ├───kotlin
+│   │   │   └───compileDebugKotlin
+│   │   │       ├───cacheable
+│   │   │       ├───classpath-snapshot
+│   │   │       └───local-state
+│   │   ├───outputs
+│   │   │   ├───aar
+│   │   │   └───logs
+│   │   └───tmp
+│   │       ├───compileDebugJavaWithJavac
+│   │       └───kotlin-classes
+│   │           └───debug
+│   │               ├───io
+│   │               │   └───flutter
+│   │               │       └───plugins
+│   │               │           └───sharedpreferences
+│   │               └───META-INF
+│   └───sqflite_android
+│       ├───.transforms
+│       │   └───c1a809ea7c58f1984fd14fe7f66ae832
+│       │       └───transformed
+│       │           └───bundleLibRuntimeToDirDebug
+│       │               └───com
+│       │                   └───tekartik
+│       │                       └───sqflite
+│       │                           ├───dev
+│       │                           └───operation
+│       ├───generated
+│       │   ├───ap_generated_sources
+│       │   │   └───debug
+│       │   │       └───out
+│       │   └───res
+│       │       ├───pngs
+│       │       │   └───debug
+│       │       └───resValues
+│       │           └───debug
+│       ├───intermediates
+│       │   ├───aapt_friendly_merged_manifests
+│       │   │   └───debug
+│       │   │       └───processDebugManifest
+│       │   │           └───aapt
+│       │   ├───aar_libs_directory
+│       │   │   └───debug
+│       │   │       └───syncDebugLibJars
+│       │   │           └───libs
+│       │   ├───aar_main_jar
+│       │   │   └───debug
+│       │   │       └───syncDebugLibJars
+│       │   ├───aar_metadata
+│       │   │   └───debug
+│       │   │       └───writeDebugAarMetadata
+│       │   ├───annotations_typedef_file
+│       │   │   └───debug
+│       │   │       └───extractDebugAnnotations
+│       │   ├───annotations_zip
+│       │   │   └───debug
+│       │   │       └───extractDebugAnnotations
+│       │   ├───annotation_processor_list
+│       │   │   └───debug
+│       │   │       └───javaPreCompileDebug
+│       │   ├───assets
+│       │   │   └───debug
+│       │   │       └───mergeDebugAssets
+│       │   ├───compiled_local_resources
+│       │   │   └───debug
+│       │   │       └───compileDebugLibraryResources
+│       │   │           └───out
+│       │   ├───compile_library_classes_jar
+│       │   │   └───debug
+│       │   │       └───bundleLibCompileToJarDebug
+│       │   ├───compile_r_class_jar
+│       │   │   └───debug
+│       │   │       └───generateDebugRFile
+│       │   ├───compile_symbol_list
+│       │   │   └───debug
+│       │   │       └───generateDebugRFile
+│       │   ├───data_binding_layout_info_type_package
+│       │   │   └───debug
+│       │   │       └───packageDebugResources
+│       │   │           └───out
+│       │   ├───incremental
+│       │   │   ├───debug
+│       │   │   │   └───packageDebugResources
+│       │   │   │       ├───merged.dir
+│       │   │   │       └───stripped.dir
+│       │   │   ├───debug-mergeJavaRes
+│       │   │   │   └───zip-cache
+│       │   │   ├───mergeDebugAssets
+│       │   │   ├───mergeDebugJniLibFolders
+│       │   │   └───mergeDebugShaders
+│       │   ├───javac
+│       │   │   └───debug
+│       │   │       └───compileDebugJavaWithJavac
+│       │   │           └───classes
+│       │   │               └───com
+│       │   │                   └───tekartik
+│       │   │                       └───sqflite
+│       │   │                           ├───dev
+│       │   │                           └───operation
+│       │   ├───library_and_local_jars_jni
+│       │   │   └───debug
+│       │   │       └───copyDebugJniLibsProjectAndLocalJars
+│       │   │           └───jni
+│       │   ├───library_jni
+│       │   │   └───debug
+│       │   │       └───copyDebugJniLibsProjectOnly
+│       │   │           └───jni
+│       │   ├───local_only_symbol_list
+│       │   │   └───debug
+│       │   │       └───parseDebugLocalResources
+│       │   ├───manifest_merge_blame_file
+│       │   │   └───debug
+│       │   │       └───processDebugManifest
+│       │   ├───merged_java_res
+│       │   │   └───debug
+│       │   │       └───mergeDebugJavaResource
+│       │   ├───merged_jni_libs
+│       │   │   └───debug
+│       │   │       └───mergeDebugJniLibFolders
+│       │   │           └───out
+│       │   ├───merged_manifest
+│       │   │   └───debug
+│       │   │       └───processDebugManifest
+│       │   ├───merged_shaders
+│       │   │   └───debug
+│       │   │       └───mergeDebugShaders
+│       │   │           └───out
+│       │   ├───navigation_json
+│       │   │   └───debug
+│       │   │       └───extractDeepLinksDebug
+│       │   ├───nested_resources_validation_report
+│       │   │   └───debug
+│       │   │       └───generateDebugResources
+│       │   ├───packaged_res
+│       │   │   └───debug
+│       │   │       └───packageDebugResources
+│       │   ├───public_res
+│       │   │   └───debug
+│       │   │       └───packageDebugResources
+│       │   ├───runtime_library_classes_dir
+│       │   │   └───debug
+│       │   │       └───bundleLibRuntimeToDirDebug
+│       │   │           └───com
+│       │   │               └───tekartik
+│       │   │                   └───sqflite
+│       │   │                       ├───dev
+│       │   │                       └───operation
+│       │   └───symbol_list_with_package_name
+│       │       └───debug
+│       │           └───generateDebugRFile
+│       ├───outputs
+│       │   ├───aar
+│       │   └───logs
+│       └───tmp
+│           └───compileDebugJavaWithJavac
+├───ios
+│   ├───Flutter
+│   │   └───ephemeral
+│   ├───Runner
+│   │   ├───Assets.xcassets
+│   │   │   ├───AppIcon.appiconset
+│   │   │   └───LaunchImage.imageset
+│   │   └───Base.lproj
+│   ├───Runner.xcodeproj
+│   │   ├───project.xcworkspace
+│   │   │   └───xcshareddata
+│   │   └───xcshareddata
+│   │       └───xcschemes
+│   ├───Runner.xcworkspace
+│   │   └───xcshareddata
+│   └───RunnerTests
+├───lib
+│   ├───core
+│   │   ├───constants
+│   │   ├───errors
+│   │   ├───network
+│   │   ├───router
+│   │   ├───theme
+│   │   └───utils
+│   ├───features
+│   │   ├───auth
+│   │   │   ├───data
+│   │   │   │   └───repositories
+│   │   │   └───presentation
+│   │   │       ├───providers
+│   │   │       ├───screens
+│   │   │       └───widgets
+│   │   ├───chat
+│   │   │   └───presentation
+│   │   │       └───screens
+│   │   ├───home
+│   │   │   └───presentation
+│   │   │       └───screens
+│   │   ├───matchmaking
+│   │   │   ├───data
+│   │   │   │   └───models
+│   │   │   └───presentation
+│   │   │       ├───screens
+│   │   │       └───widgets
+│   │   ├───profile
+│   │   │   ├───data
+│   │   │   │   ├───datasources
+│   │   │   │   ├───models
+│   │   │   │   └───repositories
+│   │   │   ├───domain
+│   │   │   │   ├───entities
+│   │   │   │   ├───repositories
+│   │   │   │   └───usecases
+│   │   │   └───presentation
+│   │   │       ├───providers
+│   │   │       ├───screens
+│   │   │       └───widgets
+│   │   ├───ranking
+│   │   │   └───presentation
+│   │   │       └───screens
+│   │   ├───tournament
+│   │   │   └───presentation
+│   │   │       └───screens
+│   │   └───venue
+│   │       ├───data
+│   │       │   └───models
+│   │       └───presentation
+│   │           ├───screens
+│   │           └───widgets
+│   └───shared
+│       ├───models
+│       └───widgets
+└───web
+    └───icons
