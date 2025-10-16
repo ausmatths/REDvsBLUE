@@ -14,6 +14,7 @@ import '../../features/venue/presentation/screens/venue_details_screen.dart';
 import '../../features/venue/presentation/screens/venue_booking_screen.dart';
 import '../../features/matchmaking/presentation/screens/match_search_screen.dart';
 import 'package:redvsblue/features/profile/presentation/screens/statistics_screen.dart';
+import '../../features/friends/presentation/screens/friends_screen.dart';
 
 // GoRouter provider for Riverpod
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -155,6 +156,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/statistics',
         name: 'statistics',
         builder: (context, state) => const StatisticsScreen(),
+      ),
+
+      GoRoute(
+        path: '/friends',
+        name: 'friends',
+        builder: (context, state) => const FriendsScreen(),
       ),
 
       // Root route - redirect to splash

@@ -587,7 +587,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildMenuItem(
                         icon: Icons.people,
                         title: 'Friends',
-                        onTap: () {},
+                        onTap: () {
+                          context.push('/friends');
+                        },
                       ),
                       _buildMenuItem(
                         icon: Icons.settings,
