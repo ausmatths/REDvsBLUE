@@ -1,3 +1,5 @@
+// lib/core/router/app_router.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +11,7 @@ import '../../features/auth/presentation/screens/otp_verification_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/profile/presentation/screens/match_detail_screen.dart';
 import '../../features/profile/presentation/screens/match_history_screen.dart';
+import '../../features/profile/presentation/screens/user_profile_view_screen.dart';
 import '../../features/venue/presentation/screens/venue_list_screen.dart';
 import '../../features/venue/presentation/screens/venue_details_screen.dart';
 import '../../features/venue/presentation/screens/venue_booking_screen.dart';
@@ -70,35 +73,52 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/match-details',
         builder: (context, state) {
           final playerData = state.extra as Map<String, dynamic>?;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Match Details'),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => context.pop(),
+          if (playerData == null) {
+            return const Scaffold(
+              body: Center(child: Text('No match data provided')),
+            );
+          }
+          final matchId = playerData['matchId'] as String? ?? 'unknown';
+          return MatchDetailScreen(matchId: matchId);
+        },
+      ),
+
+      // Match History
+      GoRoute(
+        path: '/match-history',
+        name: 'match-history',
+        builder: (context, state) => const MatchHistoryScreen(),
+      ),
+
+      // Statistics
+      GoRoute(
+        path: '/statistics',
+        name: 'statistics',
+        builder: (context, state) => const StatisticsScreen(),
+      ),
+
+      // Friends
+      GoRoute(
+        path: '/friends',
+        name: 'friends',
+        builder: (context, state) => const FriendsScreen(),
+      ),
+
+      // User Profile View (for viewing other users' profiles)
+      GoRoute(
+        path: '/user-profile/:userId',
+        name: 'user-profile',
+        builder: (context, state) {
+          final userId = state.pathParameters['userId'];
+          if (userId == null) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('Error')),
+              body: const Center(
+                child: Text('User ID not provided'),
               ),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.calendar_today, size: 80, color: Colors.blue),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Match with ${playerData?['name'] ?? 'Player'}',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text('Booking system coming soon!'),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () => context.go('/home'),
-                    child: const Text('Back to Home'),
-                  ),
-                ],
-              ),
-            ),
-          );
+            );
+          }
+          return UserProfileViewScreen(userId: userId);
         },
       ),
 
@@ -110,58 +130,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/venue-details',
         builder: (context, state) {
-          final venue = state.extra as Map<String, dynamic>? ?? {
-            'name': 'Venue',
-            'address': 'Location',
-            'rating': 4.5,
-            'distance': 2.5,
-            'pricePerHour': 500,
-            'availableCourts': 4,
-            'sports': ['badminton', 'tennis'],
-          };
+          final venue = state.extra as Map<String, dynamic>?;
+          if (venue == null) {
+            return const Scaffold(
+              body: Center(child: Text('Venue data not provided')),
+            );
+          }
           return VenueDetailsScreen(venue: venue);
         },
       ),
       GoRoute(
         path: '/venue-booking',
         builder: (context, state) {
-          final venue = state.extra as Map<String, dynamic>? ?? {
-            'name': 'Venue',
-            'address': 'Location',
-            'rating': 4.5,
-            'distance': 2.5,
-            'pricePerHour': 500,
-            'availableCourts': 4,
-            'sports': ['badminton', 'tennis'],
-          };
+          final venue = state.extra as Map<String, dynamic>?;
+          if (venue == null) {
+            return const Scaffold(
+              body: Center(child: Text('Venue data not provided')),
+            );
+          }
           return VenueBookingScreen(venue: venue);
         },
-      ),
-      GoRoute(
-        path: '/match-history',
-        name: 'match-history',
-        builder: (context, state) => const MatchHistoryScreen(),
-      ),
-
-      GoRoute(
-        path: '/match-history/:id',
-        name: 'match-detail',
-        builder: (context, state) {
-          final matchId = state.pathParameters['id']!;
-          return MatchDetailScreen(matchId: matchId);
-        },
-      ),
-
-      GoRoute(
-        path: '/statistics',
-        name: 'statistics',
-        builder: (context, state) => const StatisticsScreen(),
-      ),
-
-      GoRoute(
-        path: '/friends',
-        name: 'friends',
-        builder: (context, state) => const FriendsScreen(),
       ),
 
       // Root route - redirect to splash

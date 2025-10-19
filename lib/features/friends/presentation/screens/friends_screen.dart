@@ -1,3 +1,5 @@
+// lib/features/friends/presentation/screens/friends_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import '../providers/friends_providers.dart';
 import '../widgets/friend_card.dart';
 import '../widgets/friend_request_card.dart';
 import '../widgets/search_users_dialog.dart';
+import '../../../auth/presentation/providers/auth_providers_with_profile.dart';
 
 /// Main Friends screen with tabs for friends and requests
 class FriendsScreen extends ConsumerStatefulWidget {
@@ -349,6 +352,29 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen>
   }
 
   void _showFriendOptions(BuildContext context, dynamic friend) {
+    // Get current user for comparison
+    final currentUserId = ref.read(currentUserProvider)?.uid;
+
+    // Debug: Print detailed friend info
+    print('\n════════════════════════════════════════');
+    print('🔍 FRIEND OPTIONS MENU DEBUG');
+    print('════════════════════════════════════════');
+    print('Current User ID: $currentUserId');
+    print('Friend Object Type: ${friend.runtimeType}');
+    print('Friend ID: ${friend.friendId}');
+    print('Friend Name: ${friend.friendName}');
+    print('Friend Email: ${friend.friendEmail}');
+    print('Is Same Person?: ${currentUserId == friend.friendId}');
+
+    if (currentUserId == friend.friendId) {
+      print('⚠️  WARNING: This friend IS YOU!');
+      print('   You\'ve added yourself as a friend in Firebase.');
+      print('   This will cause the View Profile to show your own profile.');
+    } else {
+      print('✅ This is a real friend (different user)');
+    }
+    print('════════════════════════════════════════\n');
+
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -361,10 +387,23 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen>
               title: const Text('View Profile'),
               onTap: () {
                 Navigator.pop(context);
-                // Navigate to profile
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Profile view coming soon!')),
-                );
+
+                // Check if trying to view own profile
+                if (currentUserId == friend.friendId) {
+                  print('🚫 BLOCKED: Cannot view own profile through Friends');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('This friend is yourself! Remove this friendship and add real friends to test.'),
+                      backgroundColor: Colors.red,
+                      duration: Duration(seconds: 4),
+                    ),
+                  );
+                  return;
+                }
+
+                print('🚀 Navigating to friend profile: ${friend.friendId}');
+                // Navigate to user profile view with friend's ID
+                context.push('/user-profile/${friend.friendId}');
               },
             ),
             ListTile(
@@ -420,7 +459,6 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen>
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-
               try {
                 await ref
                     .read(friendsListProvider.notifier)
@@ -428,8 +466,9 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen>
 
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Friend removed'),
+                    SnackBar(
+                      content: Text('${friend.friendName} removed'),
+                      backgroundColor: Colors.orange,
                     ),
                   );
                 }
@@ -444,10 +483,10 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen>
                 }
               }
             },
-            child: const Text(
-              'Remove',
-              style: TextStyle(color: Colors.red),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
             ),
+            child: const Text('Remove'),
           ),
         ],
       ),
